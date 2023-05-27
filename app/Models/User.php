@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $guarded = [];
     /**
      * The attributes that are mass assignable.
      *
@@ -48,5 +48,8 @@ class User extends Authenticatable
     }
     public function getListChat(){
         return $this->hasMany(Chat::class);
+    }
+    public function getMessage(){
+        return $this->hasMany(Message::class);
     }
 }

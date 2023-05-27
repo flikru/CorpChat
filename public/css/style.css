@@ -249,6 +249,9 @@ body{
      content: "\f1d8";
     box-sizing: border-box;
  }
+.from_message{
+    font-size: 12px;
+}
 @media only screen and (min-width: 768px) and (max-width: 992px) {
     .chat-app .chat-list {
         height: 100vh;

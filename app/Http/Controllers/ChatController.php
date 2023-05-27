@@ -34,6 +34,7 @@ class ChatController extends Controller
                 'id' => $message->id,
                 'text' => $message->text,
                 'user_id' => $message->user_id,
+                'user_name' => $message->user->name,
                 'created_at' => date('d-m-Y, H:i:s', strtotime($message->created_at)),
             ];
         }

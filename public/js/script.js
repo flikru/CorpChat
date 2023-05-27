@@ -15,7 +15,7 @@ $('#add_message_form').on('submit', function() {
     var data = $('#add_message_form').serialize();
     $.ajax({
         'type': 'POST',
-        'url': '/chat',
+        'url': '/',
         'data': data,
         'dataType': 'json',
         'success': function (data) {
@@ -50,30 +50,32 @@ $('#add_message_form').on('submit', function() {
         $('.chat_id').val(chat_id);
         $.ajax({
             'type': 'GET',
-            'url': '/viewMessage/',
+            'url': '/viewMessage',
             'data': "chat_id="+chat_id,
             'dataType': 'json',
             'success': function( data )
             {
+                console.log(data);
                 $('.chat-about h6').html(data[1].chat_title);
                 $('.chat-history ul').html("");
                 data.forEach(function (item,index){
                     createDate = item.created_at;
+                    var from = "<div class='from_message'>от <b>"+item.user_name+"</b></div>";
                     if(item.user_id == СurrentUser){
                         $('.chat-history ul').append(
                             '<li class="clearfix" id = '+item.id+'>' +
                             '<div class="message-data text-right">' +
                             '<span class="message-data-time">'+createDate+'</span>' +
                             '</div>' +
-                            '<div class="message other-message float-right">'+item.text+'</div></li>'
+                            '<div class="message other-message float-right">'+ from +item.text+'</div></li>'
                         )
                     }else{
                         $('.chat-history ul').append(
                             '<li class="clearfix" id = '+item.id+'>' +
-                            '<div class="message-data">' +
-                            '<span class="message-data-time">'+createDate+'</span>' +
+                            '<div class="message-data">'  +
+                            '<span class="message-data-time">'+ createDate+'</span>' +
                             '</div>' +
-                            '<div class="message my-message">'+item.text+'</div></li>'
+                            '<div class="message my-message">'+ from +item.text+'</div></li>'
                         )
                     }
                 });

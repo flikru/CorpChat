@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
-Route::post('/chat', [App\Http\Controllers\ChatController::class, 'store'])->name('chatStore');
-Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage');
+
+Route::get('/', [App\Http\Controllers\ChatController::class, 'index'])->name('chat')->middleware('auth');
+Route::post('/', [App\Http\Controllers\ChatController::class, 'store'])->name('chatStore')->middleware('auth');
+Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage')->middleware('auth');;
 
 
 Auth::routes();
