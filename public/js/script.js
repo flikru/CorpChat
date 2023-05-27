@@ -1,5 +1,4 @@
 $(window).load(function (){
-
     var СurrentUser = $('.currentuser_id').val();
     var ActivChatId = 1;
     $('.chat_id').val(ActivChatId);
