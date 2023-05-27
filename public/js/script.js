@@ -1,4 +1,9 @@
 $(window).load(function (){
+    console.log('local');
+    console.log('local');
+    console.log('local');
+    console.log('local');
+    console.log('local');
     var СurrentUser = $('.currentuser_id').val();
     var ActivChatId = 1;
     $('.chat_id').val(ActivChatId);
