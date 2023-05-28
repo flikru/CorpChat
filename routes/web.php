@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\ChatController::class, 'index'])->name('chat')->middleware('auth');
 Route::post('/', [App\Http\Controllers\ChatController::class, 'store'])->name('chatStore')->middleware('auth');
+
+Route::get('/chatcreate', [App\Http\Controllers\ChatController::class, 'chatcreate'])->name('chatcreate')->middleware('auth');
+Route::post('/chatstore', [App\Http\Controllers\ChatController::class, 'chatstore'])->name('chatstore')->middleware('auth');
+
 Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage')->middleware('auth');;
 
 

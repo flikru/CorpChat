@@ -128,7 +128,7 @@ body{
 
 .chat .chat-history .message {
     color: #444;
-    padding: 18px 20px;
+    padding: 10px 15px;
     line-height: 26px;
     font-size: 16px;
     border-radius: 7px;
@@ -249,6 +249,7 @@ body{
      content: "\f1d8";
     box-sizing: border-box;
  }
+
 .from_message{
     font-size: 12px;
 }
