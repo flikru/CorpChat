@@ -9,31 +9,35 @@ use App\Models\Chat;
 
 class ChatController extends Controller
 {
+
+    //Загрузка главной
     public function index(){
-
-      //$chat = Chat::where('type','like',"1_2")->orWhere('type','like',"2_1")->first();
-
-//        foreach ($chat->users as $user){
-//            dd($user);
-//            if($user == 1){
-//                $haveUser=true;
-//            }
-//        }
         //dd($chat);
         $СurrentUser = Auth::user();
         $users = User::all();
         return view('chat.index',compact('users', 'СurrentUser'));
     }
 
-    public function getChats(){
+    //Получение списка чата
+    public static function getChats(){
+
         $CurrentUser = Auth::user();
 
         foreach ($CurrentUser->chats as $item){
+            if($item->type != "chats"){
+                if($item->user_id!=$CurrentUser->id){
+                    $item->title = User::find($item->user_id)->first()->name;
+                }
+            }
             $listChats[] = $item;
         }
-        return view('chat.listchats',compact('listChats','CurrentUser'));
+
+        if(isset($listChats)){
+            return view('chat.listchats',compact('listChats','CurrentUser'));
+        }
     }
 
+    //Загрузка сообщение в чат
     public function viewMessage(Request $request){
         $СurrentUser = Auth::user();
         $chat_id = $request->chat_id;
@@ -42,6 +46,7 @@ class ChatController extends Controller
         return view('chat.message',compact('messages','infoChat','СurrentUser'));
     }
 
+    //Доблавние сообщения в чат
     public function store(Request $request){
         $data = $request->all();
         $message = Message::create($data);
@@ -105,16 +110,23 @@ class ChatController extends Controller
 
     }
 
-    public function destroy(Chat $chat){
+    //Удаление чата
+    public function closeChat(Chat $chat){
+
         if($chat->id==1){
             return redirect()->route('chat');
         }
         $chat->users()->detach(Auth::user()->id);
-        //$chat->delete();
+        if($chat->users->count()==0){
+            $chat->delete();
+        }
         return redirect()->route('chat');
+
     }
 
+    //Добавление чата
     public function chatstore(Request $request){
+
         $СurrentUser = Auth::user();
         $members = $request->members;
         $data['title'] = $request->title;
@@ -125,11 +137,8 @@ class ChatController extends Controller
 
             $chat->users()->attach($member);
         }
-        //            $user = User::firstOrCreate(
-//                ['email' =>  request('email')],
-//                ['name' => request('name')]
-//            );
         return redirect()->route('chat');
+
     }
     //
 

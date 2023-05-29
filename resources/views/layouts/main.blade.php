@@ -1,15 +1,17 @@
 <?
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Controllers\ChatController;
+
 if(isset($_GET['chat_id'])){
     $active_chat_id = $_GET['chat_id'];
 }else{
     $active_chat_id = 1;
 }
+
 $CurrentUser = Auth::user();
-foreach ($CurrentUser->chats as $item){
-    $listChats[] = $item;
-}
+
+
 $users = User::all();
 ?>
     <!doctype html>
@@ -33,6 +35,7 @@ $users = User::all();
                 <div id="plist" class="people-list">
                     <div class="input-group">
                         <h3>{{ $СurrentUser->name }}</h3>
+                        <div class=""><a href="{{route('home')}}">Профиль</a></div>
                     </div>
 
                     <div class="input-group">
@@ -48,7 +51,7 @@ $users = User::all();
 
 
                         <div class="input-group"><div class="name">
-                            <a class="name" href="/chatcreate">Создать чат</a>
+                                <a class="name" href="/chatcreate">Создать чат</a>
                             </div>
                             <li class="clearfix w-100">
                                 <div class="about">
@@ -57,33 +60,16 @@ $users = User::all();
                             </li>
                         </div>
                         <div class="listChats">
-                        @if(isset($listChats))
-                            @foreach($listChats as $chat)
-                                <li class="clearfix get_message_chat" chat-id="{{ $chat->id }}" @if($chat->id==$active_chat_id){{ "id=main_chat" }}@endif>
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                                    <div class="about">
-                                        <div class="name"><a class='chat_link' href="/?chat_id={{ $chat->id }}"></a>{{ $chat->title }}</div>
-                                        <div class="status"> <i class="fa fa-circle online"></i>Online</div>
-                                        @if($CurrentUser->id == $chat->user_id && $chat->id!=1)
-                                            <form action="{{route('chat.delete',$chat->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <input type="submit" class="delete_chat" value="х">
-                                            </form>
-                                        @endif
-                                    </div>
-                                </li>
-                            @endforeach
-                        @endif
+                            <?=ChatController::getChats(); ?>
                         </div>
                         <div class="input-group">
                             <b>Пользователи</b>
                         </div>
                         @foreach($users as $user)
                             <?
-                                if($user->id == $CurrentUser->id){
-                                    continue;
-                                };
+                            if($user->id == $CurrentUser->id){
+                                continue;
+                            };
                             ?>
                             <li class="clearfix user_chat_create" user-id="{{ $user->id }}">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">

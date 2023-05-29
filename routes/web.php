@@ -25,7 +25,7 @@ Route::post('/chatstore', [App\Http\Controllers\ChatController::class, 'chatstor
 Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage')->middleware('auth');
 Route::get('/getChats', [App\Http\Controllers\ChatController::class, 'getChats'])->name('getChats')->middleware('auth');
 
-Route::delete('/deleteChat/{chat}', [App\Http\Controllers\ChatController::class, 'destroy'])->name('chat.delete')->middleware('auth');
+Route::delete('/closeChat/{chat}', [App\Http\Controllers\ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

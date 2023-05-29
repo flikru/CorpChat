@@ -1,8 +1,9 @@
-$(window).load(function (){
-    var СurrentUser = $('.currentuser_id').val();
-    var ActivChatId = $('#main_chat').attr('chat-id');
-    $('.chat_id').val(ActivChatId);
+var СurrentUser = $('.currentuser_id').val();
+var ActivChatId = $('#main_chat').attr('chat-id');
 
+$(window).load(function (){
+
+    $('.chat_id').val(ActivChatId);
     getMessage($('#main_chat'));
 
 });
@@ -118,7 +119,7 @@ function lastMessageScroll() {
 $('.delete_chat')
 
 $(document).on("click", ".delete_chat", function(e) {
-    var isAdmin = confirm("При удалении стираются все сообщения у обоих собеседников. Вы уверены?");
+    var isAdmin = confirm("Вы уверены что хотите выйти из чата?");
     if(isAdmin==false){
         return false;
     }
