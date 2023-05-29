@@ -205,7 +205,9 @@ body{
 .float-right {
     float: right
 }
-
+.listChats>li{
+   position: relative;
+}
 .clearfix:after {
     visibility: hidden;
     display: block;
@@ -253,24 +255,39 @@ body{
 .from_message{
     font-size: 12px;
 }
+
+.delete_chat{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: inherit;
+    border: none;
+    padding: 3px;
+    margin: 0px;
+    font-size: 13px;
+    line-height: 6px;
+}
+
+
+
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-    .chat-app .chat-list {
-        height: 100vh;
-        overflow-x: auto
-    }
-    .chat-app .chat-history {
-        height: 100vh;
-        overflow-x: auto
-    }
+.chat-app .chat-list {
+    height: 100vh;
+    overflow-x: auto
+}
+.chat-app .chat-history {
+    height: 100vh;
+    overflow-x: auto
+}
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-    .chat-app .chat-list {
-        height: 100vh;
-        overflow-x: auto
-    }
-    .chat-app .chat-history {
-        height: 100vh;
-        overflow-x: auto
-    }
+.chat-app .chat-list {
+    height: 100vh;
+    overflow-x: auto
+}
+.chat-app .chat-history {
+    height: 100vh;
+    overflow-x: auto
+}
 }

@@ -15,10 +15,9 @@ return new class extends Migration
             $table->unsignedBigInteger('chat_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->foreign('chat_id')->references('id')->on('chats');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('chat_id')->references('id')->on('chats')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            //$table->primary(['chat_id  ','user_id'], 'chat_id_user_id_primary');
         });
     }
 

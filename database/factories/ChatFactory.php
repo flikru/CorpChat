@@ -17,8 +17,8 @@ class ChatFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=>$this->faker->safeColorName(),
-            'user_id'=>rand(1,5),
+            'title'=>"Общий чат",//'title'=>$this->faker->safeColorName(),
+            'user_id'=>1,
         ];
     }
 }

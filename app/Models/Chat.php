@@ -11,6 +11,7 @@ class Chat extends Model
 
     use HasFactory;
     protected $guarded=[];
+    protected $fillable = [];
 
     public function users(){
         return $this->belongsToMany(User::class);

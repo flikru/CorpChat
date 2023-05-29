@@ -18,10 +18,14 @@ Route::get('/', [App\Http\Controllers\ChatController::class, 'index'])->name('ch
 Route::post('/', [App\Http\Controllers\ChatController::class, 'store'])->name('chatStore')->middleware('auth');
 
 Route::get('/chatcreate', [App\Http\Controllers\ChatController::class, 'chatcreate'])->name('chatcreate')->middleware('auth');
+
+Route::post('/storeprivatechat', [App\Http\Controllers\ChatController::class, 'storeprivatechat'])->name('storeprivatechat')->middleware('auth');
 Route::post('/chatstore', [App\Http\Controllers\ChatController::class, 'chatstore'])->name('chatstore')->middleware('auth');
 
-Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage')->middleware('auth');;
+Route::get('/viewMessage', [App\Http\Controllers\ChatController::class, 'viewMessage'])->name('viewMessage')->middleware('auth');
+Route::get('/getChats', [App\Http\Controllers\ChatController::class, 'getChats'])->name('getChats')->middleware('auth');
 
+Route::delete('/deleteChat/{chat}', [App\Http\Controllers\ChatController::class, 'destroy'])->name('chat.delete')->middleware('auth');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

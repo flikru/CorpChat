@@ -1,9 +1,12 @@
 <?
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+if(isset($_GET['chat_id'])){
+    $active_chat_id = $_GET['chat_id'];
+}else{
+    $active_chat_id = 1;
+}
 $CurrentUser = Auth::user();
-
 foreach ($CurrentUser->chats as $item){
     $listChats[] = $item;
 }
@@ -43,24 +46,36 @@ $users = User::all();
                             <b>Чаты</b>
                         </div>
 
-                        <a class="name" href="/chatcreate">Создать чат</a>
-                        <div class="input-group">
+
+                        <div class="input-group"><div class="name">
+                            <a class="name" href="/chatcreate">Создать чат</a>
+                            </div>
                             <li class="clearfix w-100">
                                 <div class="about">
-                                    <div class="name">Создать чат</div>
+
                                 </div>
                             </li>
                         </div>
-                        @foreach($listChats as $chat)
-
-                            <li class="clearfix" chat-id="{{ $chat->id }}" @if($chat->id==1){{ "id=main_chat" }}@endif>
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                                <div class="about">
-                                    <div class="name">{{ $chat->title }}</div>
-                                    <div class="status"> <i class="fa fa-circle online"></i>Online</div>
-                                </div>
-                            </li>
-                        @endforeach
+                        <div class="listChats">
+                        @if(isset($listChats))
+                            @foreach($listChats as $chat)
+                                <li class="clearfix get_message_chat" chat-id="{{ $chat->id }}" @if($chat->id==$active_chat_id){{ "id=main_chat" }}@endif>
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                    <div class="about">
+                                        <div class="name"><a class='chat_link' href="/?chat_id={{ $chat->id }}"></a>{{ $chat->title }}</div>
+                                        <div class="status"> <i class="fa fa-circle online"></i>Online</div>
+                                        @if($CurrentUser->id == $chat->user_id && $chat->id!=1)
+                                            <form action="{{route('chat.delete',$chat->id)}}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <input type="submit" class="delete_chat" value="х">
+                                            </form>
+                                        @endif
+                                    </div>
+                                </li>
+                            @endforeach
+                        @endif
+                        </div>
                         <div class="input-group">
                             <b>Пользователи</b>
                         </div>
@@ -70,7 +85,7 @@ $users = User::all();
                                     continue;
                                 };
                             ?>
-                            <li class="clearfix" user-id="{{ $user->id }}">
+                            <li class="clearfix user_chat_create" user-id="{{ $user->id }}">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{ $user->name }}</div>
@@ -78,15 +93,10 @@ $users = User::all();
                                 </div>
                             </li>
                         @endforeach
-                        <li class="clearfix active">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Vincent Porter</div>
-                                <div class="status"> <i class="fa fa-circle online"></i> left 7 mins ago </div>
-                            </div>
-                        </li>
-
                     </ul>
+                    <form class="d-none get-token" action="" method="post">
+                        @csrf
+                    </form>
                 </div>
                 <div class="chat">
                     @yield('content')

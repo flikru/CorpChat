@@ -2,7 +2,6 @@
     <div class="row">
         <div class="col-12 text-center">Сообщений нет, напишите первым!</div></div>
 @endif
-
 @foreach($messages as $message)
     <li class="clearfix" id='{{$message->id}}'>
         <div class="message-data {{ ($message->user_id==$СurrentUser->id) ? '' : 'text-right'}}">
@@ -15,3 +14,7 @@
         </div>
     </li>
 @endforeach
+
+<script>
+        $('.chat-about h6').html('<?=$infoChat->title?>');
+</script>

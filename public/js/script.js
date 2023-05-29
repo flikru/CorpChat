@@ -1,12 +1,14 @@
 $(window).load(function (){
     var СurrentUser = $('.currentuser_id').val();
-    var ActivChatId = 1;
+    var ActivChatId = $('#main_chat').attr('chat-id');
     $('.chat_id').val(ActivChatId);
 
     getMessage($('#main_chat'));
 
+});
+
 $('#add_message_form').on('submit', function() {
-        var chat_id = $('.chat_id').val();
+    var chat_id = $('.chat_id').val();
     var data = $('#add_message_form').serialize();
     $.ajax({
         'type': 'POST',
@@ -23,26 +25,51 @@ $('#add_message_form').on('submit', function() {
 
 
 //Получение сообщений
-    $('.chat-list .clearfix').on('click',function (){
+    $('.chat-list .get_message_chat').on('click',function (){
+        if(window.location.pathname!="/"){
+            document.location.href = '/?chat_id='+$(this).attr('chat-id');
+        }
         getMessage($(this));
     });
 
+$(document).on("click", ".chat-list .get_message_chat", function(e) {
+    if(window.location.pathname!="/"){
+        document.location.href = '/?chat_id='+$(this).attr('chat-id');
+    }
+    getMessage($(this));
+});
+
+//Создание приватного чата
+    $('.chat-list .user_chat_create').on('click',function (){
+        var user_id=$(this).attr('user-id');
+        var csrf=$('.get-token input').val();
+        $.ajax({
+            'type': 'post',
+            'url': '/storeprivatechat',
+            'data': {
+                'user_id': user_id,
+                '_token': csrf,
+            },
+            'dataType': 'html',
+            'success': function (data) {
+                console.log(data);
+                getChats();
+            }
+        });
+    });
 
     function getMessage(thisEl=null,chat_id_f){
-        $('.chat-list .clearfix').removeClass('active');
+        $('.chat-list .get_message_chat').removeClass('active');
         if(thisEl!=null){
             thisEl.addClass('active');
             if(thisEl.attr('chat-id')){
                 var chat_id = $(thisEl).attr('chat-id')
-            }else{
-                var chat_id = $(thisEl).attr('user-id')
             }
         }else{
             if(chat_id_f!=null){
                 chat_id=chat_id_f;
             }
         }
-        console.log(chat_id)
         $('.chat_id').val(chat_id);
         $.ajax({
             'type': 'GET',
@@ -50,69 +77,12 @@ $('#add_message_form').on('submit', function() {
             'data': "chat_id="+chat_id,
             'dataType': 'html',
             'success': function( data )
-            {   console.log(chat_id);
+            {
                 $('.chat-history ul').html(data);
                 lastMessageScroll();
             }
         });
     }
-
-
-
-
-    // function getMessage1(thisEl=null,chat_id_f){
-    //     $('.chat-list .clearfix').removeClass('active');
-    //     if(thisEl!=null){
-    //         thisEl.addClass('active');
-    //         if(thisEl.attr('chat-id')){
-    //             var chat_id = $(thisEl).attr('chat-id')
-    //         }else{
-    //             var chat_id = $(thisEl).attr('user-id')
-    //         }
-    //     }else{
-    //         if(chat_id_f!=null){
-    //             chat_id=chat_id_f;
-    //         }
-    //     }
-    //     console.log(chat_id)
-    //     $('.chat_id').val(chat_id);
-    //     $.ajax({
-    //         'type': 'GET',
-    //         'url': '/viewMessage',
-    //         'data': "chat_id="+chat_id,
-    //         'dataType': 'json',
-    //         'success': function( data )
-    //         {
-    //             console.log(data);
-    //             $('.chat-about h6').html(data[1].chat_title);
-    //             $('.chat-history ul').html("");
-    //             data.forEach(function (item,index){
-    //                 createDate = item.created_at;
-    //                 var from = "<div class='from_message'>от <b>"+item.user_name+"</b></div>";
-    //                 if(item.user_id == СurrentUser){
-    //                     $('.chat-history ul').append(
-    //                         '<li class="clearfix" id = '+item.id+'>' +
-    //                         '<div class="message-data text-right">' +
-    //                         '<span class="message-data-time">'+createDate+'</span>' +
-    //                         '</div>' +
-    //                         '<div class="message other-message float-right">'+ from +item.text+'</div></li>'
-    //                     )
-    //                 }else{
-    //                     $('.chat-history ul').append(
-    //                         '<li class="clearfix" id = '+item.id+'>' +
-    //                         '<div class="message-data">'  +
-    //                         '<span class="message-data-time">'+ createDate+'</span>' +
-    //                         '</div>' +
-    //                         '<div class="message my-message">'+ from +item.text+'</div></li>'
-    //                     )
-    //                 }
-    //             });
-    //             lastMessageScroll();
-    //         }
-    //     });
-    // }
-
-})
 
 $(document).ready(function () {
     $("a.myLinkModal").click(function (event) {
@@ -133,11 +103,36 @@ $(document).ready(function () {
 });
 
 function lastMessageScroll() {
-    setTimeout(function (){
-        $('.chat-history').animate({
 
-            scrollTop: $("#end_div_scroll").offset().top // класс объекта к которому приезжаем
-        }, 300); // Скорость прокрутки
-    }, 300);
+    if($('#end_div_scroll').length>0){
 
+        setTimeout(function (){
+            $('.chat-history').animate({
+                scrollTop: $("#end_div_scroll").offset().top // класс объекта к которому приезжаем
+            }, 300); // Скорость прокрутки
+        }, 300);
+
+    }
+
+}
+$('.delete_chat')
+
+$(document).on("click", ".delete_chat", function(e) {
+    var isAdmin = confirm("При удалении стираются все сообщения у обоих собеседников. Вы уверены?");
+    if(isAdmin==false){
+        return false;
+    }
+});
+
+function getChats(){
+    $.ajax({
+        'type': 'GET',
+        'url': '/getChats',
+        'dataType': 'html',
+        'success': function( data )
+        {
+            console.log(data);
+            $('.listChats').html(data);
+        }
+    });
 }
