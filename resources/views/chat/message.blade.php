@@ -14,7 +14,7 @@
                 <span>{{$message->created_at}}</span>, <span>от <b>{{$message->user->name}}</b></span>
             </div>
             {{$message->text}}
-            @if($message->user_id==$СurrentUser->id)
+            @if($message->user_id == $СurrentUser->id)
             <form action="{{route('message.destroy',$message->id)}}" method="post">
                 @csrf
                 @method('delete')
@@ -29,5 +29,10 @@
 @if($update==false)
     <script>
         $('.chat-about h6').html('<?=$infoChat->title?>');
+        var html="";
+        @foreach($members as $member)
+            html+='<a class="dropdown-item" href="#">{{$member->name}}</a>'
+            @endforeach
+        $('.members-list').html(html);
     </script>
 @endif

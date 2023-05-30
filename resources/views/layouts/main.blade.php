@@ -29,20 +29,29 @@ $users = User::all();
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <div class="container-fluid">
+
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card chat-app">
                 <div id="plist" class="people-list">
                     <div class="input-group">
-                        <h3>{{ $СurrentUser->name }}</h3>
-                        <div class=""><a href="{{route('home')}}">Профиль</a></div>
+                        <a href="{{route('home')}}">
+                            <h3>{{ $СurrentUser->name }}
+                            <i class="fa fa-cogs"></i></h3>
+                        </a>
                     </div>
-
-                    <div class="input-group">
+                    {{--<div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                         </div>
                         <input type="text" class="form-control" placeholder="Поиск">
+                    </div>--}}
+                    <div class="input-group w-100">
+                        <div class="name w-100">
+                            <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
+                                Создать чат
+                            </a>
+                        </div>
                     </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
                         <div class="input-group">
@@ -50,15 +59,7 @@ $users = User::all();
                         </div>
 
 
-                        <div class="input-group"><div class="name">
-                                <a class="name" href="{{route('chat.create')}}">Создать чат</a>
-                            </div>
-                            <li class="clearfix w-100">
-                                <div class="about">
 
-                                </div>
-                            </li>
-                        </div>
                         <div class="listChats">
                             <?=ChatController::getChats(); ?>
                         </div>
@@ -93,8 +94,11 @@ $users = User::all();
 </div>
 @include('include.AddChatPopup')
 <input type="text" class="d-none currentuser_id" id="#" value="{{ $СurrentUser->id }}">
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+{{--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>--}}
+<script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+{{--<script src="{{asset('public/js/bootstrap.bundle.min.js')}}">--}}
+<script src="{{asset('public/js/popper.min.js')}}"></script>
 <script src="{{asset('public/js/script.js')}}"></script>
 </body>
 </html>

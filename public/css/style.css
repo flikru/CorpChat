@@ -267,7 +267,10 @@ body{
     line-height: 6px;
 }
 
-
+.upload_div {
+}
+input[type="file"] {
+}
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
 .chat-app .chat-list {

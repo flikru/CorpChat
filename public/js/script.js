@@ -1,7 +1,7 @@
 var СurrentUser = $('.currentuser_id').val();
 var ActivChatId = $('#main_chat').attr('chat-id');
 
-$(window).load(function (){
+$(window).on('load', function (){
 
     $('.chat_id').val(ActivChatId);
     getMessage($('#main_chat'));

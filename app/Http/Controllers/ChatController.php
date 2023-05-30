@@ -16,7 +16,8 @@ class ChatController extends Controller
         //dd($chat);
         $СurrentUser = Auth::user();
         $users = User::all();
-        return view('chat.index',compact('users', 'СurrentUser'));
+        $members = Chat::find(1)->first()->users;
+        return view('chat.index',compact('users', 'СurrentUser', 'members'));
     }
 
     //Получение списка чата

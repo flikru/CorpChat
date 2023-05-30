@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +17,19 @@ class MessageController extends Controller
         $messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
         $infoChat = Chat::where('id', $chat_id)->first();
 
-        return view('chat.message',compact('messages','infoChat', 'СurrentUser'));
-    }
+        $members = $infoChat->users;
 
+        if($infoChat->type != "chats"){
+            if($infoChat->user_id != $СurrentUser->id){
+                $infoChat->title = User::where('id',$infoChat->user_id)->first()->name;
+            }
+        }
+
+        return view('chat.message',compact('messages','infoChat', 'СurrentUser', 'members'));
+    }
+    public static function getMembersChat(){
+
+    }
     public static function updateMessage(Request $request){
         $last_id = $request->last_message_id;
         $СurrentUser = Auth::user();
@@ -52,4 +63,5 @@ class MessageController extends Controller
         }
 
     }
+
 }
