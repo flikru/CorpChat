@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="chat-history container-fluid">
-        <form action="/chatstore" method="post">
+        <form action="{{route('chat.store')}}" method="post">
             @csrf
             <div class="row mb-4">
                 <div class="col-12">Название чата</div><br>

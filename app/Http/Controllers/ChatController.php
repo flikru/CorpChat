@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\Chat;
+use App\Http\Controllers\MessageController;
 
 class ChatController extends Controller
 {
@@ -20,15 +21,16 @@ class ChatController extends Controller
 
     //Получение списка чата
     public static function getChats(){
-
         $CurrentUser = Auth::user();
 
         foreach ($CurrentUser->chats as $item){
+
             if($item->type != "chats"){
-                if($item->user_id!=$CurrentUser->id){
-                    $item->title = User::find($item->user_id)->first()->name;
+                if($item->user_id != $CurrentUser->id){
+                    $item->title = User::where('id',$item->user_id)->first()->name;
                 }
             }
+
             $listChats[] = $item;
         }
 
@@ -37,24 +39,10 @@ class ChatController extends Controller
         }
     }
 
-    //Загрузка сообщение в чат
-    public function viewMessage(Request $request){
-        $СurrentUser = Auth::user();
-        $chat_id = $request->chat_id;
-        $messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
-        $infoChat = Chat::where('id', $chat_id)->first();
-        return view('chat.message',compact('messages','infoChat','СurrentUser'));
-    }
+
 
     //Доблавние сообщения в чат
-    public function store(Request $request){
-        $data = $request->all();
-        $message = Message::create($data);
-        if($message)
-            return json_encode('ok');
-        else
-            return json_encode('false');
-    }
+
 
     //Создание чата
     public function chatcreate(){
@@ -105,8 +93,10 @@ class ChatController extends Controller
                 $chat->users()->attach($СurrentUserID);
             }
         }
+
         $request->chat_id = $chat->id;
-        return $this::viewMessage($request);
+
+        return MessageController::getMessage($request);
 
     }
 
@@ -134,7 +124,6 @@ class ChatController extends Controller
         $chat = Chat::create($data);
         $chat->users()->attach(Auth::user()->id);
         foreach ( $members as $member) {
-
             $chat->users()->attach($member);
         }
         return redirect()->route('chat');

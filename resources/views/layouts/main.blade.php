@@ -51,7 +51,7 @@ $users = User::all();
 
 
                         <div class="input-group"><div class="name">
-                                <a class="name" href="/chatcreate">Создать чат</a>
+                                <a class="name" href="{{route('chat.create')}}">Создать чат</a>
                             </div>
                             <li class="clearfix w-100">
                                 <div class="about">
