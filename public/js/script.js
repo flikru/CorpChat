@@ -7,7 +7,13 @@ $(window).on('load', function (){
     getMessage($('#main_chat'));
 
 });
-
+$(document).on("click", ".select_chat", function(e) {
+    if($('.people-list').hasClass('visible-people-list')){
+        $('.people-list').removeClass('visible-people-list')
+    }else{
+        $('.people-list').addClass('visible-people-list')
+    }
+})
 $('#add_message_form').on('submit', function() {
     var chat_id = $('.chat_id').val();
     var data = $('#add_message_form').serialize();
