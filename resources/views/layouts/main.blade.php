@@ -33,6 +33,7 @@ $users = User::all();
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card chat-app">
+                <button class="btn btn-info w-100 select_chat">Меню</button>
                 <div id="plist" class="people-list">
                     <div class="input-group">
                         <a href="{{route('home')}}">

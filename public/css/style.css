@@ -215,15 +215,23 @@ body{
     clear: both;
     height: 0
 }
-
+.select_chat{
+    display: none;
+}
 @media only screen and (max-width: 767px) {
+    .select_chat{
+        display: block;
+    }
     .chat-app .people-list {
         height: 100%;
         width: 100%;
         overflow-x: auto;
         background: #fff;
-        left: -400px;
-        display: none
+        left: -1200px;
+        margin-top:40px;
+    }
+    .chat-app .visible-people-list {
+        left: 0px;
     }
     .chat-app .people-list.open {
         left: 0
