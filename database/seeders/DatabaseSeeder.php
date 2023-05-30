@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $users = \App\Models\User::factory(5)->create();
-        $chats = \App\Models\Chat::factory(20)->create();
+        $chats = \App\Models\Chat::factory(1)->create();
+        /*
         $messages = \App\Models\Message::factory(150)->create();
          \App\Models\User::factory()->create([
              'name' => 'Test User',
@@ -25,12 +26,13 @@ class DatabaseSeeder extends Seeder
             $zn = 3;
             $chatsId = $chats->random($zn)->pluck('id');
             $user->chats()->attach($chatsId);
-        }
+        }*/
 //        $users = User::all();
 //        $chats = Chat::all();
         foreach($users as $user){
             $user->chats()->attach(1);
         }
+
 
     }
 }

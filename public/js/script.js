@@ -1,16 +1,19 @@
-$(window).load(function (){
-    var СurrentUser = $('.currentuser_id').val();
-    var ActivChatId = 1;
-    $('.chat_id').val(ActivChatId);
+var СurrentUser = $('.currentuser_id').val();
+var ActivChatId = $('#main_chat').attr('chat-id');
 
+$(window).on('load', function (){
+
+    $('.chat_id').val(ActivChatId);
     getMessage($('#main_chat'));
 
+});
+
 $('#add_message_form').on('submit', function() {
-        var chat_id = $('.chat_id').val();
+    var chat_id = $('.chat_id').val();
     var data = $('#add_message_form').serialize();
     $.ajax({
         'type': 'POST',
-        'url': '/',
+        'url': '/message/addMessage',
         'data': data,
         'dataType': 'json',
         'success': function (data) {
@@ -21,98 +24,36 @@ $('#add_message_form').on('submit', function() {
     return false;
 })
 
+//Установка активного чата
 
 //Получение сообщений
-    $('.chat-list .clearfix').on('click',function (){
-        getMessage($(this));
-    });
-
-
-    function getMessage(thisEl=null,chat_id_f){
-        $('.chat-list .clearfix').removeClass('active');
-        if(thisEl!=null){
-            thisEl.addClass('active');
-            if(thisEl.attr('chat-id')){
-                var chat_id = $(thisEl).attr('chat-id')
-            }else{
-                var chat_id = $(thisEl).attr('user-id')
-            }
-        }else{
-            if(chat_id_f!=null){
-                chat_id=chat_id_f;
-            }
-        }
-        console.log(chat_id)
-        $('.chat_id').val(chat_id);
-        $.ajax({
-            'type': 'GET',
-            'url': '/viewMessage',
-            'data': "chat_id="+chat_id,
-            'dataType': 'html',
-            'success': function( data )
-            {   console.log(chat_id);
-                $('.chat-history ul').html(data);
-                lastMessageScroll();
-            }
-        });
+$(document).on("click", ".chat-list .get_message_chat", function(e) {
+    if(window.location.pathname!="/"){
+        document.location.href = '/?chat_id='+$(this).attr('chat-id');
     }
+    setActivChat($(this));
+    getMessage($(this));
+});
+
+//Создание приватного чата
+$('.chat-list .user_chat_create').on('click',function (){
+    var user_id=$(this).attr('user-id');
+    var csrf=$('.get-token input').val();
+    $.ajax({
+        'type': 'post',
+        'url': '/chat/storeprivate',
+        'data': {
+            'user_id': user_id,
+            '_token': csrf,
+        },
+        'dataType': 'html',
+        'success': function (data) {
+            getChats();
+        }
+    });
+});
 
 
-
-
-    // function getMessage1(thisEl=null,chat_id_f){
-    //     $('.chat-list .clearfix').removeClass('active');
-    //     if(thisEl!=null){
-    //         thisEl.addClass('active');
-    //         if(thisEl.attr('chat-id')){
-    //             var chat_id = $(thisEl).attr('chat-id')
-    //         }else{
-    //             var chat_id = $(thisEl).attr('user-id')
-    //         }
-    //     }else{
-    //         if(chat_id_f!=null){
-    //             chat_id=chat_id_f;
-    //         }
-    //     }
-    //     console.log(chat_id)
-    //     $('.chat_id').val(chat_id);
-    //     $.ajax({
-    //         'type': 'GET',
-    //         'url': '/viewMessage',
-    //         'data': "chat_id="+chat_id,
-    //         'dataType': 'json',
-    //         'success': function( data )
-    //         {
-    //             console.log(data);
-    //             $('.chat-about h6').html(data[1].chat_title);
-    //             $('.chat-history ul').html("");
-    //             data.forEach(function (item,index){
-    //                 createDate = item.created_at;
-    //                 var from = "<div class='from_message'>от <b>"+item.user_name+"</b></div>";
-    //                 if(item.user_id == СurrentUser){
-    //                     $('.chat-history ul').append(
-    //                         '<li class="clearfix" id = '+item.id+'>' +
-    //                         '<div class="message-data text-right">' +
-    //                         '<span class="message-data-time">'+createDate+'</span>' +
-    //                         '</div>' +
-    //                         '<div class="message other-message float-right">'+ from +item.text+'</div></li>'
-    //                     )
-    //                 }else{
-    //                     $('.chat-history ul').append(
-    //                         '<li class="clearfix" id = '+item.id+'>' +
-    //                         '<div class="message-data">'  +
-    //                         '<span class="message-data-time">'+ createDate+'</span>' +
-    //                         '</div>' +
-    //                         '<div class="message my-message">'+ from +item.text+'</div></li>'
-    //                     )
-    //                 }
-    //             });
-    //             lastMessageScroll();
-    //         }
-    //     });
-    // }
-
-})
 
 $(document).ready(function () {
     $("a.myLinkModal").click(function (event) {
@@ -132,12 +73,146 @@ $(document).ready(function () {
     });
 });
 
-function lastMessageScroll() {
-    setTimeout(function (){
-        $('.chat-history').animate({
+$(document).on("click", ".delete_chat", function(e) {
+    if($(this).attr('attr-message')){
+        text= $(this).attr('attr-message');
+    }else{
+        text="Вы уверены что хотите выйти из чата?";
+    }
+    var Success = confirm(text);
+    if(Success==false){
+        return false;
+    }
+});
 
-            scrollTop: $("#end_div_scroll").offset().top // класс объекта к которому приезжаем
-        }, 300); // Скорость прокрутки
-    }, 300);
+$(document).on("submit", ".message-data form", function(e) {
+    deleteMessage($(this));
+    return false;
+})
+
+//установка активного чата
+function setActivChat(el){
+    $('#main_chat').removeAttr('id');
+    el.attr('id','main_chat');
+    ActivChatId = el.attr('chat-id');
+}
+
+
+//Получение всех чатов
+function getChats(){
+    $.ajax({
+        'type': 'GET',
+        'url': '/chat/getchats',
+        'dataType': 'html',
+        'success': function( data )
+        {
+            $('.listChats').html(data);
+        }
+    });
+}
+
+
+function getMessage(thisEl=null,chat_id_f){
+
+    $('.chat-list .get_message_chat').removeClass('active');
+
+    if(thisEl!=null){
+        thisEl.addClass('active');
+        if(thisEl.attr('chat-id')){
+            var chat_id = $(thisEl).attr('chat-id')
+        }
+    }else{
+        if(chat_id_f!=null){
+            chat_id=chat_id_f;
+        }
+    }
+
+    $('.chat_id').val(chat_id);
+
+    $.ajax({
+        'type': 'GET',
+        'url': '/message/getMessage',
+        'data': "chat_id="+chat_id,
+        'dataType': 'html',
+        'success': function( data )
+        {
+            $('.chat-history ul').html(data);
+            lastMessageScroll();
+        }
+    });
 
 }
+
+
+function deleteMessage(form){
+    var message_id = form.find('input[name=message_id]').val();
+    var formData = form.serialize();
+    $.ajax({
+        'type': 'POST',
+        'url': '/message/delete/'+message_id,
+        'data': formData,
+        'dataType': 'html',
+        'success': function( data )
+        {
+            getMessage(null , ActivChatId);
+        }
+    });
+}
+
+function lastMessageScroll() {
+
+    var div = $('.chat-history');
+    div.scrollTop(div.prop('scrollHeight'));
+    // if($('#end_div_scroll').length>0){
+    //
+    //     setTimeout(function (){
+    //         $('.chat-history').animate({
+    //             scrollTop: $("#end_div_scroll").offset().top // класс объекта к которому приезжаем
+    //         }, 300); // Скорость прокрутки
+    //     }, 300);
+    //
+    // }
+
+}
+
+function updateMessage(thisEl=null, chat_id_f, lastMessage=0){
+
+    $('.chat-list .get_message_chat').removeClass('active');
+
+    if(thisEl!=null){
+        thisEl.addClass('active');
+        if(thisEl.attr('chat-id')){
+            var chat_id = $(thisEl).attr('chat-id')
+        }
+    }else{
+        if(chat_id_f!=null){
+            chat_id=chat_id_f;
+        }
+    }
+
+    $('.chat_id').val(chat_id);
+
+    $.ajax({
+        'type': 'GET',
+        'url': '/message/updateMessage',
+        'data': {
+            "chat_id": chat_id,
+            "last_message_id": lastMessage
+        },
+        'dataType': 'html',
+        'success': function( data )
+        {
+            $('.chat-history ul').append(data);
+            lastMessageScroll();
+        }
+    });
+
+}
+
+
+const intervalId = setInterval(function() {
+    //getMessage(null, ActivChatId);
+    lastMessage = $('.chat-history ul li:last').attr('id');
+    updateMessage(null, ActivChatId, lastMessage);
+    //console.log('Я выполняюсь каждую секунду')
+}, 1000)
