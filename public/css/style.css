@@ -244,15 +244,14 @@ body{
     }
 }
 .btn-send{
-    border-radius: 0px 5px 5px 0px;
-    border: 1px solid #e2e3e5;
-    background-color: #00daff;
-    content: "\f1d8";
+    width: 100%;
 }
-.btn-send:before{
-     content: "\f1d8";
-    box-sizing: border-box;
- }
+.label_upload{
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+
 
 .from_message{
     font-size: 12px;
