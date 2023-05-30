@@ -2,7 +2,7 @@
 @section('content')
                     <div class="chat-header clearfix">
                         <div class="row">
-                            <div class="col-sm-6 col-sm-6 col-lg-4">
+                            <div class="col-6 col-lg-4">
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                 </a>
@@ -11,10 +11,10 @@
                                     <small>Online</small>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-sm-6 col-lg-4 text-center">
+                            <div class="col-6 col-lg-4 text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Участники чата
+                                        Участники
                                     </button>
                                     <div class="dropdown-menu members-list" aria-labelledby="dropdownMenuButton">
                                         @foreach($members as $member)
@@ -38,7 +38,7 @@
                             <input type="text" class="d-none" name="user_id" value="{{ $СurrentUser->id }}">
 {{--                            <input type="file" class="fa fa-image btn btn-outline-primary" value="" placeholder="Загрузить">--}}
 
-                            <div class="input-group mb-0 bg-light row">
+                            <div class="row">
                                 <div class="col-sm-8 col-md-12 col-lg-9 position-relative">
                                     <input type="text" class="form-control" name="text" placeholder="Введите сообщение">
                                     <label for="file_upload" class="label_upload btn btn-info">Загрузить</label>

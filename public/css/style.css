@@ -250,6 +250,7 @@ body{
     position: absolute;
     top:0px;
     right: 0px;
+    margin-right: 15px;
 }
 
 
@@ -288,8 +289,20 @@ input[type="file"] {
 }
 
 @media only screen and (max-width: 768px) {
-
+    .chat .chat-header{
+        padding: 5px;
+    }
+    .chat .chat-message{
+        padding: 5px;
+    }
     .chat-app .chat-history {
-        max-height: 70vh;
+        max-height: 63vh;
+        padding: 10px;
+    }
+    .chat-app .chat-list{
+        height:70vh;
+    }
+    .chat .chat-history ul li{
+        margin-bottom: 10px;
     }
 }
