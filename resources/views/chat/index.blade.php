@@ -2,7 +2,7 @@
 @section('content')
                     <div class="chat-header clearfix">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-sm-6 col-sm-6 col-lg-4">
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                 </a>
@@ -11,7 +11,7 @@
                                     <small>Online</small>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-sm-6 col-sm-6 col-lg-4 text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Участники чата
