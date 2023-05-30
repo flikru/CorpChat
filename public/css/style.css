@@ -1,6 +1,7 @@
 body{
     background-color: #f4f7f6;
     margin-top:20px;
+    height: 95vh;
 }
 .card {
     background: #fff;
@@ -10,7 +11,6 @@ body{
     position: relative;
     width: 100%;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
-    height: 95vh;
 }
 .chat-app .people-list {
     width: 350px;
@@ -19,13 +19,12 @@ body{
     top: 0;
     padding: 20px;
     z-index: 7;
-    max-height: 95vh;
-    overflow-y: scroll;
+    max-height: 100%;
 }
 
 .chat-app .chat {
     margin-left: 350px;
-    border-left: 1px solid #eaeaea
+    border-left: 1px solid #eaeaea;
 }
 
 .people-list {
@@ -83,7 +82,7 @@ body{
 .chat .chat-header img {
     float: left;
     border-radius: 40px;
-    width: 40px
+    width: 40px;
 }
 
 .chat .chat-header .chat-about {
@@ -178,7 +177,8 @@ body{
 }
 
 .chat .chat-message {
-    padding: 20px
+    padding: 20px;
+    background-color: #fff;
 }
 
 .online,
@@ -223,9 +223,7 @@ body{
         display: block;
     }
     .chat-app .people-list {
-        height: 100%;
         width: 100%;
-        overflow-x: auto;
         background: #fff;
         left: -1200px;
         margin-top:40px;
@@ -243,9 +241,6 @@ body{
         border-radius: 0.55rem 0.55rem 0 0
     }
     .chat-app .chat-history {
-        height: 100vh;
-
-        overflow-x: auto
     }
 }
 .btn-send{
@@ -280,24 +275,22 @@ body{
 input[type="file"] {
 }
 
-@media only screen and (min-width: 768px) and (max-width: 992px) {
 .chat-app .chat-list {
-    height: 100vh;
-    overflow-x: auto
-}
-.chat-app .chat-history {
-    height: 100vh;
-    overflow-x: auto
-}
+    overflow-y: scroll;
+    height: 82vh;
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-.chat-app .chat-list {
-    height: 100vh;
-    overflow-x: auto
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+
+    .chat-app .chat-history {
+        max-height: 78vh;
+    }
+
 }
-.chat-app .chat-history {
-    height: 100vh;
-    overflow-x: auto
-}
+
+@media only screen and (max-width: 768px) {
+
+    .chat-app .chat-history {
+        max-height: 70vh;
+    }
 }
