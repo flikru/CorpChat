@@ -14,7 +14,8 @@ class MessageController extends Controller
     public static function getMessage(Request $request){
         $СurrentUser = Auth::user();
         $chat_id = $request->chat_id;
-        $messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
+        //$messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
+        $messages = Message::where('chat_id',$chat_id)->orderBy('id', 'desc')->take(40)->get()->reverse();
         $infoChat = Chat::where('id', $chat_id)->first();
 
         $members = $infoChat->users;
@@ -27,9 +28,20 @@ class MessageController extends Controller
 
         return view('chat.message',compact('messages','infoChat', 'СurrentUser', 'members'));
     }
-    public static function getMembersChat(){
 
+    public static function getPrevMessage(Request $request){
+        $last_id = $request->first_message_id;
+        $chat_id = $request->chat_id;
+
+        $СurrentUser = Auth::user();
+
+        //$messages = Message::where('chat_id',$chat_id)->where('id','<',$last_id)->orderBy('id', 'desc')->take(2)->get();
+        $messages = Message::where('chat_id',$chat_id)->where('id','<',$last_id)->orderBy('id', 'desc')->take(22)->get()->reverse();
+        $infoChat = Chat::where('id', $chat_id)->first();
+        $update=true;
+        return view('chat.message',compact('messages','infoChat', 'СurrentUser','update'));
     }
+
     public static function updateMessage(Request $request){
         $last_id = $request->last_message_id;
         $СurrentUser = Auth::user();

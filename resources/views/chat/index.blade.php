@@ -12,7 +12,7 @@
                                 </div>
                             </div>
                             <div class="col-6 col-lg-4 text-center">
-                                <div class="dropdown">
+                                <div class="dropdown text-left">
                                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Участники
                                     </button>
@@ -26,9 +26,12 @@
                         </div>
                     </div>
                     <div class="chat-history">
+                        <div class="btn_load_message" style="display: none">
+                            <button name = 'btn_load_message' id = 'btn_load_message' class="btn bg-info text-center text-light rounded pointer-curs w-100 mb-3">Загрузить еще</button>
+                        </div>
                         <ul class="m-b-0">
                         </ul>
-                        <div id="end_div_scroll">
+                        <div id="end_div_scroll" style="display: none">
                             <svg class="strelka-bottom-1" viewbox="0 0 60 100"><path d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z"></path></svg>
                         </div>
 

@@ -32,6 +32,7 @@ Route::delete('/chat/close/{chat}', [ChatController::class, 'closeChat'])->name(
 
 Route::get('/message/getMessage', [MessageController::class, 'getMessage'])->name('message.getmessage')->middleware('auth');
 Route::get('/message/updateMessage', [MessageController::class, 'updateMessage'])->name('message.updatemessage')->middleware('auth');
+Route::get('/message/getPrevMessage', [MessageController::class, 'getPrevMessage'])->name('message.getPrevMessage')->middleware('auth');
 Route::post('/message/addMessage', [MessageController::class, 'addMessage'])->name('message.store')->middleware('auth');
 Route::delete('/message/delete/{message}', [MessageController::class, 'destroy'])->name('message.destroy')->middleware('auth');
 

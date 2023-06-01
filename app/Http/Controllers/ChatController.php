@@ -96,8 +96,8 @@ class ChatController extends Controller
         }
 
         $request->chat_id = $chat->id;
-
-        return MessageController::getMessage($request);
+        return $chat->id;
+        //return MessageController::getMessage($request);
 
     }
 
