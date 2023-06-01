@@ -28,7 +28,10 @@
                     <div class="chat-history">
                         <ul class="m-b-0">
                         </ul>
-                        <div id="end_div_scroll"></div>
+                        <div id="end_div_scroll">
+                            <svg class="strelka-bottom-1" viewbox="0 0 60 100"><path d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z"></path></svg>
+                        </div>
+
                     </div>
                     <div class="chat-message clearfix">
                         <form action="" method="post" id="add_message_form">
