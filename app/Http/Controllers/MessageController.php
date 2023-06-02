@@ -57,16 +57,15 @@ class MessageController extends Controller
 
     public function addMessage(Request $request){
         $data = $request->all();
-        if ($request->isMethod('post') && $request->file('file_upload')) {
 
+        if ($request->isMethod('post') && $request->file('file_upload')) {
             $file = $request->file('file_upload');
             $upload_folder = 'public/storage/folder';
-            $filename = $file->getClientOriginalName(); //.date('d-m-yyh:i-s'); // image.jpg
+            $filename = $file->getClientOriginalName()."_".date('dmyhi'); // image.jpg
             $path = Storage::putFileAs($upload_folder, $file, $filename);
             $data["file_path"] = $path;
             unset($data["file_upload"]);
         }
-
         $message = Message::create($data);
         if($message)
             return json_encode($data);

@@ -19,20 +19,25 @@ $(document).on("click", ".select_chat", function(e) {
 //Добавление сообщения в чат
 $('#add_message_form').on('submit', function() {
     //var chat_id = $('.chat_id').val();
+    var form_data = new FormData();
     var data = $('#add_message_form').serialize();
     var text = $('input[name="text"]').val();
     var user_id = $('input[name="user_id"]').val();
     var chat_id = $('input[name="chat_id"]').val();
     var token = $('input[name="_token"]').val();
 
-    var file_data = $('#file_upload').prop('files')[0];
-    var form_data = new FormData();
+    if($('#file_upload').prop('files').length>0){
+        var file_data = $('#file_upload').prop('files')[0];
+        form_data.append('file_upload', file_data);
+    }
 
-    form_data.append('file_upload', file_data);
+
+
     form_data.append('text', text);
     form_data.append('user_id', user_id);
     form_data.append('chat_id', chat_id);
     form_data.append('_token', token);
+    form_data.append('_method', "post");
 
     for (var key of form_data.keys()) {
        // console.log(key, form_data.get(key));
@@ -52,8 +57,8 @@ $('#add_message_form').on('submit', function() {
         'processData': false,
         'success': function (data) {
             console.log(data);
-            // getMessage(null, chat_id);
-            //$('.form-control').val('');
+            getMessage(null, chat_id);
+            $('.form-control').val('');
         }
     });
     return  false;
