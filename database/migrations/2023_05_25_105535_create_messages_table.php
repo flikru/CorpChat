@@ -25,6 +25,7 @@ return new class extends Migration
                 ->references('id')->on('chats')
                 ->onDelete('cascade');
 
+            $table->string('file_path')->nullable();
             $table->timestamps();
         });
     }

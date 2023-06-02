@@ -23,6 +23,7 @@ $users = User::all();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('public/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/svg.css')}}">
     <title>Чат</title>
 
 </head>

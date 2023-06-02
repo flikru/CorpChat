@@ -11,8 +11,8 @@ if(isset($_GET['chat_id'])){
         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
         <div class="about">
             <div class="name"><a class='chat_link' href="/?chat_id={{ $chat->id }}"></a>{{ $chat->title }}</div>
-            <div class="status"> <i class="fa fa-circle online"></i>Online</div>
-            @if($chat->id!=1)
+            <div class="status"><i class="fa fa-circle online"></i>Online</div>
+            @if($chat->id != 1)
                 <form action="{{route('chat.close',$chat->id)}}" method="post">
                     @csrf
                     @method('delete')
