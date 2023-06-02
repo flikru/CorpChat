@@ -7,11 +7,13 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
     //Загрузка сообщение в чат
     public static function getMessage(Request $request){
+
         $СurrentUser = Auth::user();
         $chat_id = $request->chat_id;
         //$messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
@@ -55,16 +57,26 @@ class MessageController extends Controller
 
     public function addMessage(Request $request){
         $data = $request->all();
+        if ($request->isMethod('post') && $request->file('file_upload')) {
+
+            $file = $request->file('file_upload');
+            $upload_folder = 'public/storage/folder';
+            $filename = $file->getClientOriginalName(); //.date('d-m-yyh:i-s'); // image.jpg
+            $path = Storage::putFileAs($upload_folder, $file, $filename);
+            $data["file_path"] = $path;
+            unset($data["file_upload"]);
+        }
+
         $message = Message::create($data);
         if($message)
-            return json_encode('ok');
+            return json_encode($data);
         else
             return json_encode('false');
     }
 
     public function destroy(Message $message, Request $request){
-        $request->chat_id = $message->chat_id;
 
+        $request->chat_id = $message->chat_id;
         $СurrentUser = Auth::user();
         if($message->user_id==$СurrentUser->id or $СurrentUser->role=='admin'){
             $message->delete();

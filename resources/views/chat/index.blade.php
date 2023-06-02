@@ -37,13 +37,12 @@
 
                     </div>
                     <div class="chat-message clearfix">
-                        <form action="" method="post" id="add_message_form">
+                        <form action="" method="post" id="add_message_form" enctype="multipart/form-data">
                             @csrf
                             @method('post')
                             <input type="hidden" class="d-none chat_id" name="chat_id" value="1">
                             <input type="text" class="d-none" name="user_id" value="{{ $СurrentUser->id }}">
 {{--                            <input type="file" class="fa fa-image btn btn-outline-primary" value="" placeholder="Загрузить">--}}
-
                             <div class="row">
                                 <div class="col-sm-8 col-md-12 col-lg-9 position-relative">
                                     <input type="text" class="form-control" name="text" placeholder="Введите сообщение">

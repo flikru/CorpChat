@@ -18,16 +18,57 @@ $(document).on("click", ".select_chat", function(e) {
 
 //Добавление сообщения в чат
 $('#add_message_form').on('submit', function() {
-    var chat_id = $('.chat_id').val();
+    //var chat_id = $('.chat_id').val();
     var data = $('#add_message_form').serialize();
+    var text = $('input[name="text"]').val();
+    var user_id = $('input[name="user_id"]').val();
+    var chat_id = $('input[name="chat_id"]').val();
+    var token = $('input[name="_token"]').val();
+
+    var file_data = $('#file_upload').prop('files')[0];
+    var form_data = new FormData();
+
+    form_data.append('file_upload', file_data);
+    form_data.append('text', text);
+    form_data.append('user_id', user_id);
+    form_data.append('chat_id', chat_id);
+    form_data.append('_token', token);
+
+    for (var key of form_data.keys()) {
+       // console.log(key, form_data.get(key));
+    }
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        }
+    })
+    $.ajax({
+        'type': 'POST',
+        'url': '/message/addMessage',
+        'data': form_data,
+        'dataType': 'html',
+        'cache': false,
+        'contentType': false,
+        'processData': false,
+        'success': function (data) {
+            console.log(data);
+            // getMessage(null, chat_id);
+            //$('.form-control').val('');
+        }
+    });
+    return  false;
+
+
+
     $.ajax({
         'type': 'POST',
         'url': '/message/addMessage',
         'data': data,
-        'dataType': 'json',
+        'dataType': 'html',
         'success': function (data) {
-            getMessage(null, chat_id);
-            $('.form-control').val('');
+            console.log(data);
+            // getMessage(null, chat_id);
+            //$('.form-control').val('');
         }
     });
     return false;
