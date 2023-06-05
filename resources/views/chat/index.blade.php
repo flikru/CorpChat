@@ -8,7 +8,6 @@
                                 </a>
                                 <div class="chat-about">
                                     <h6 class="m-b-0">Общий чат</h6>
-                                    <small>Online</small>
                                 </div>
                             </div>
                             <div class="col-6 col-lg-4 text-center">

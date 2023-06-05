@@ -57,7 +57,9 @@ class MessageController extends Controller
 
     public function addMessage(Request $request){
         $data = $request->all();
-
+        $СurrentUser = Auth::user();
+        $СurrentUser->active=time();
+        $СurrentUser->save();
         if ($request->isMethod('post') && $request->file('file_upload')) {
             $file = $request->file('file_upload');
             $upload_folder = 'public/message_data/';
