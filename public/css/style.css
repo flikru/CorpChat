@@ -1,7 +1,12 @@
 body{
     background-color: #f4f7f6;
-    margin-top:20px;
-    height: 95vh;
+    height: 100vh;
+    margin: 0 !important;
+    overflow: hidden;
+}
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl{
+    margin: 0;
+    padding: 0;
 }
 .card {
     background: #fff;
@@ -10,7 +15,6 @@ body{
     border-radius: .55rem;
     position: relative;
     width: 100%;
-    box-shadow: 0 0px 25px 0 #000;
 }
 .chat-app .people-list {
     width: 350px;
@@ -116,9 +120,11 @@ body{
 
 .chat .chat-history .message-data img {
     border-radius: 40px;
-    width: 40px
 }
-
+.chat_image{
+    max-width: 300px;
+    width: 100%;
+}
 .chat .chat-history .message-data-time {
     color: #434651;
     padding-left: 6px

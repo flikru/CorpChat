@@ -60,10 +60,10 @@ class MessageController extends Controller
 
         if ($request->isMethod('post') && $request->file('file_upload')) {
             $file = $request->file('file_upload');
-            $upload_folder = 'public/storage/folder';
-            $filename = $file->getClientOriginalName()."_".date('dmyhi'); // image.jpg
+            $upload_folder = 'public/message_data/';
+            $filename = date('dmyhi').$file->getClientOriginalName(); // image.jpg
             $path = Storage::putFileAs($upload_folder, $file, $filename);
-            $data["file_path"] = $path;
+            $data["file_path"] = $filename;
             unset($data["file_upload"]);
         }
         $message = Message::create($data);

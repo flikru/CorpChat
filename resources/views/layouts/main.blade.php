@@ -11,7 +11,6 @@ if(isset($_GET['chat_id'])){
 
 $CurrentUser = Auth::user();
 
-
 $users = User::all();
 ?>
     <!doctype html>
@@ -59,9 +58,6 @@ $users = User::all();
                         <div class="input-group">
                             <b>Чаты</b>
                         </div>
-
-
-
                         <div class="listChats">
                             <?=ChatController::getChats(); ?>
                         </div>
@@ -75,7 +71,7 @@ $users = User::all();
                             };
                             ?>
                             <li class="clearfix user_chat_create" user-id="{{ $user->id }}">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                <img src="{{ isset($user->photo_path) ? "/public".Storage::url("public/user_data/$user->photo_path") : "https://bootdey.com/img/Content/avatar/avatar1.png" }}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{ $user->name }}</div>
                                     <div class="status"> <i class="fa fa-circle online"></i> Онлайн  </div>

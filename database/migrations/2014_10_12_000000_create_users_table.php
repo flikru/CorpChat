@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('about')->nullable();
-            $table->string('photo_path')->default(public_path()."/images/avatars/avatar1.png");
+            $table->string('photo_path')->default("avatar1.png");
             $table->string('group')->default('users');
             $table->string('position')->nullable();
             $table->string('status')->nullable();
