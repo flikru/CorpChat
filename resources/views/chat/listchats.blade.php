@@ -20,5 +20,6 @@ if(isset($_GET['chat_id'])){
                 </form>
             @endif
         </div>
+        <div class="new_message"></div>
     </li>
 @endforeach

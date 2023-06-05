@@ -14,6 +14,8 @@ class ChatController extends Controller
     //Загрузка главной
     public function index(){
         //dd($chat);
+
+        //dump($msg);
         $СurrentUser = Auth::user();
         $users = User::all();
         $members = Chat::find(1)->first()->users;

@@ -3,9 +3,6 @@
                     <div class="chat-header clearfix">
                         <div class="row">
                             <div class="col-6 col-lg-4">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                    <img src="/public/images/all.png" alt="avatar">
-                                </a>
                                 <div class="chat-about">
                                     <h6 class="m-b-0">Общий чат</h6>
                                 </div>

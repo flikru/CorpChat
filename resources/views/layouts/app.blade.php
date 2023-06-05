@@ -8,11 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Профили пользователей</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link type="image/x-icon" href="/favicon.png" rel="shortcut icon">
+    <link type="Image/x-icon" href="/favicon.png" rel="icon">
     <style>
 
         .user-form>div{

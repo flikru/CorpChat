@@ -303,6 +303,14 @@ input[type="file"] {
 .pointer-curs{
     cursor:pointer;
 }
+.new_message{
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
 @media only screen and (min-width: 768px) and (max-width: 992px) {
 
     .chat-app .chat-history {

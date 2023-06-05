@@ -23,6 +23,8 @@ $users = User::all();
     <link rel="stylesheet" href="{{asset('public/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/svg.css')}}">
+    <link type="image/x-icon" href="/favicon.png" rel="shortcut icon">
+    <link type="Image/x-icon" href="/favicon.png" rel="icon">
     <title>Чат</title>
 
 </head>
