@@ -67,6 +67,13 @@ $(document).on("click", ".chat-list .get_message_chat", function(e) {
     if(window.location.pathname!="/"){
         document.location.href = '/?chat_id='+$(this).attr('chat-id');
     }
+    $(this).find(".new_message").removeClass('bg-success')
+    if($('.people-list').hasClass('visible-people-list')){
+        $('.people-list').removeClass('visible-people-list')
+    }else{
+        $('.people-list').addClass('visible-people-list')
+    }
+
     setActivChat($(this));
     getMessage($(this));
 });

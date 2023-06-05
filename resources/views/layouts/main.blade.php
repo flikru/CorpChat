@@ -23,6 +23,8 @@ $users = User::all();
     <link rel="stylesheet" href="{{asset('public/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/svg.css')}}">
+    <link type="image/x-icon" href="/favicon.png" rel="shortcut icon">
+    <link type="Image/x-icon" href="/favicon.png" rel="icon">
     <title>Чат</title>
 
 </head>
@@ -48,11 +50,18 @@ $users = User::all();
                         <input type="text" class="form-control" placeholder="Поиск">
                     </div>--}}
                     <div class="input-group w-100">
-                        <div class="name w-100">
-                            <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
-                                Создать чат
-                            </a>
-                        </div>
+                        @if($CurrentUser->group == "admin")
+                            <div class="name w-100 mb-2">
+                                <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
+                                    Создать чат
+                                </a>
+                            </div>
+                            <div class="name w-100">
+                                <a href="{{route('register')}}" class="btn btn-info w-100" type="button" >
+                                    Добавить участника
+                                </a>
+                            </div>
+                        @endif
                     </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
                         <div class="input-group">
@@ -74,7 +83,11 @@ $users = User::all();
                                 <img src="{{ isset($user->photo_path) ? "/public".Storage::url("public/user_data/$user->photo_path") : "https://bootdey.com/img/Content/avatar/avatar1.png" }}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{ $user->name }}</div>
-                                    <div class="status"> <i class="fa fa-circle online"></i> Онлайн  </div>
+                                    @if(15 > (time() - $user->active)/60)
+                                        <div class="status"><i class="fa fa-circle online"></i>Онлайн</div>
+                                    @else
+                                        <div class="status"><i class="fa fa-circle offline"></i>Офлайн</div>
+                                    @endif
                                 </div>
                             </li>
                         @endforeach

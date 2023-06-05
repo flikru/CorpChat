@@ -45,19 +45,35 @@ class MessageController extends Controller
     }
 
     public static function updateMessage(Request $request){
+        $new_in_chats=[];
+        $chats = Auth::user()->chats;
+        $CurrentUser = Auth::user();
+        foreach($chats as $chat){
+            $msg = Message::where("chat_id", $chat->id)->orderby('id', 'desc')->first();
+            if(isset($msg->id)){
+                if($msg->id > $CurrentUser->status )
+                    $new_in_chats[] = $msg->chat_id;
+            }
+        }
         $last_id = $request->last_message_id;
         $СurrentUser = Auth::user();
+        if($СurrentUser->status < $last_id){
+            $СurrentUser->status = $last_id;
+            $СurrentUser->save();
+        }
         $chat_id = $request->chat_id;
 
         $messages = Message::where('chat_id',$chat_id)->where('id','>',$last_id)->orderBy('id', 'asc')->take(40)->get();
         $infoChat = Chat::where('id', $chat_id)->first();
         $update=true;
-        return view('chat.message',compact('messages','infoChat', 'СurrentUser','update'));
+        return view('chat.message',compact('messages','infoChat', 'СurrentUser', 'update', 'new_in_chats'));
     }
 
     public function addMessage(Request $request){
         $data = $request->all();
-
+        $СurrentUser = Auth::user();
+        $СurrentUser->active = time();
+        $СurrentUser->save();
         if ($request->isMethod('post') && $request->file('file_upload')) {
             $file = $request->file('file_upload');
             $upload_folder = 'public/message_data/';
