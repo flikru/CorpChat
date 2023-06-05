@@ -31,17 +31,12 @@ $('#add_message_form').on('submit', function() {
         form_data.append('file_upload', file_data);
     }
 
-
-
     form_data.append('text', text);
     form_data.append('user_id', user_id);
     form_data.append('chat_id', chat_id);
     form_data.append('_token', token);
     form_data.append('_method', "post");
 
-    for (var key of form_data.keys()) {
-       // console.log(key, form_data.get(key));
-    }
         $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('input[name="_token"]').val()
@@ -63,20 +58,6 @@ $('#add_message_form').on('submit', function() {
     });
     return  false;
 
-
-
-    $.ajax({
-        'type': 'POST',
-        'url': '/message/addMessage',
-        'data': data,
-        'dataType': 'html',
-        'success': function (data) {
-            console.log(data);
-            // getMessage(null, chat_id);
-            //$('.form-control').val('');
-        }
-    });
-    return false;
 })
 
 //Установка активного чата
@@ -104,9 +85,11 @@ $('body').on('click', '.chat-list .user_chat_create', function (){
         },
         'dataType': 'html',
         'success': function (chat_id) {
+            ActivChatId = chat_id;
             getChats();
             getMessage(null, chat_id);
             console.log(ActivChatId);
+            //setActivChat($(".get_message_chat[chat-id="+chat_id+"]"))
         }
     });
 });
@@ -159,6 +142,8 @@ $(document).on("submit", ".message-data form", function(e) {
 $('#btn_load_message').on('click', function (){
     getPrevMessage();
 })
+
+
 //Отключение автопрокрутки
 var oldScrollPosition = 0;
 document.querySelector('.chat-history').addEventListener('wheel', function(evt) {
@@ -195,6 +180,7 @@ function getChats(){
     $.ajax({
         'type': 'GET',
         'url': '/chat/getchats',
+        'data':{'chat_id': ActivChatId},
         'dataType': 'html',
         'success': function( data ){
             $('.listChats').html(data);
@@ -312,8 +298,6 @@ function getPrevMessage(){
             }
         });
     }
-
-
 }
 
 const intervalId = setInterval(function() {
@@ -321,4 +305,4 @@ const intervalId = setInterval(function() {
     lastMessage = $('.chat-history ul li:last').attr('id');
     updateMessage(null, ActivChatId, lastMessage);
     //console.log('Я выполняюсь каждую секунду')
-}, 1500)
+}, 2000)

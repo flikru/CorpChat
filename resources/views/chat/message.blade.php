@@ -13,6 +13,22 @@
             <div class="from_message ">
                 <span>{{$message->created_at}}</span>, <span>от <b>{{$message->user->name}}</b></span>
             </div>
+            @if(isset($message->file_path))
+                <div class="from_message ">
+                    Прикрепленный файл: <a href="/public{{ Storage::url("public/message_data/$message->file_path") }}" download="">{{$message->file_path}}</a>
+                    <?
+                    if(isset($message->file_path)){
+                        $path = "/public".Storage::url("public/message_data/".$message->file_path);
+                        if(pathinfo($message->file_path, PATHINFO_EXTENSION)=='jpg' ||
+                            pathinfo($message->file_path, PATHINFO_EXTENSION)=='png' ||
+                            pathinfo($message->file_path, PATHINFO_EXTENSION)=='jpeg'
+                        ){?>
+                        <div><img src="/public{{ Storage::url("public/message_data/$message->file_path") }}" class="chat_image" alt=""></div>
+                        <?};
+                    }
+                    ?>
+                </div>
+            @endif
             {{$message->text}}
             @if($message->user_id == $СurrentUser->id)
             <form action="{{route('message.destroy',$message->id)}}" method="post">
