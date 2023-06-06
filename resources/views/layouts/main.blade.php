@@ -83,6 +83,9 @@ $users = User::all();
                                 <img src="{{ isset($user->photo_path) ? "/public".Storage::url("public/user_data/$user->photo_path") : "https://bootdey.com/img/Content/avatar/avatar1.png" }}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{ $user->name }}</div>
+                                    @if(isset($user->position))
+                                        <div class="position">{{ $user->position }}</div>
+                                    @endif
                                     @if(15 > (time() - $user->active)/60)
                                         <div class="status"><i class="fa fa-circle online"></i>Онлайн</div>
                                     @else

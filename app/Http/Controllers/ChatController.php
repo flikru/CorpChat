@@ -103,7 +103,7 @@ class ChatController extends Controller
 
     }
 
-    //Удаление чата
+    //Закрытие чата
     public function closeChat(Chat $chat){
 
         if($chat->id==1){
@@ -117,12 +117,28 @@ class ChatController extends Controller
 
     }
 
+    //Закрытие чата
+    public function destroyChat(Chat $chat){
+
+        if($chat->id==1){
+            return redirect()->route('chat');
+        }
+
+        $chat->delete();
+        return redirect()->route('chat');
+
+    }
+
     //Добавление чата
     public function chatstore(Request $request){
 
         $СurrentUser = Auth::user();
         $members = $request->members;
-        $data['title'] = $request->title;
+        if(isset($request->title)){
+            $data['title'] = $request->title;
+        }else{
+            $data['title'] = "Чат от ".Auth::user()->name;
+        }
         $data['user_id'] = Auth::user()->id;
         $chat = Chat::create($data);
         $chat->users()->attach(Auth::user()->id);
@@ -132,6 +148,5 @@ class ChatController extends Controller
         return redirect()->route('chat');
 
     }
-    //
 
 }

@@ -22,6 +22,7 @@ Route::post('/chat/storeprivate', [ChatController::class, 'storeprivatechat'])->
 Route::post('/chat/store', [ChatController::class, 'chatstore'])->name('chat.store')->middleware('auth');
 Route::get('/chat/getchats', [ChatController::class, 'getChats'])->name('chat.getchats')->middleware('auth');
 Route::delete('/chat/close/{chat}', [ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
+Route::delete('/chat/destroy/{chat}', [ChatController::class, 'destroyChat'])->name('chat.destroy')->middleware('admin');
 
 
 Route::get('/message/getMessage', [MessageController::class, 'getMessage'])->name('message.getmessage')->middleware('auth');

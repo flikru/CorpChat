@@ -137,6 +137,13 @@ $(document).on("click", ".delete_chat", function(e) {
     }
 });
 
+$(document).on("click", ".destroy_chat", function(e) {
+    text="Вы уверены что хотите удалить чат навсегда? Все сообщения исчезнут!";
+    var Success = confirm(text);
+    if(Success==false){
+        return false;
+    }
+});
 
 //удаление сообщения
 $(document).on("submit", ".message-data form", function(e) {
