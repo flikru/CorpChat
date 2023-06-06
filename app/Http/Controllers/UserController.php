@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -21,7 +22,15 @@ class UserController extends Controller
         $newuser = $user->update($data);
         return redirect('home');
     }
+
     function show(User $user, Request $request){
         return view('user.show', compact('user'));
+    }
+
+    function destroy(User $user){
+        if(Auth::user()->group == "admin" && $user->id!=1 ){
+            $user->delete();
+        }
+        return redirect('home');
     }
 }

@@ -54,6 +54,7 @@ $('#add_message_form').on('submit', function() {
             console.log(data);
             getMessage(null, chat_id);
             $('.form-control').val('');
+            $('#file_upload').val('');
         }
     });
     return  false;
@@ -78,6 +79,9 @@ $(document).on("click", ".chat-list .get_message_chat", function(e) {
     getMessage($(this));
 });
 
+// $(document).on("click", ".chat-list .get_message_chat", function(e) {
+//     return true;
+// });
 
 //Создание приватного чата
 $('body').on('click', '.chat-list .user_chat_create', function (){
@@ -144,6 +148,7 @@ $(document).on("click", ".destroy_chat", function(e) {
         return false;
     }
 });
+
 
 //удаление сообщения
 $(document).on("submit", ".message-data form", function(e) {

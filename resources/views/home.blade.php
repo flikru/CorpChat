@@ -60,9 +60,20 @@ $СurrentUser = Auth::user();
         <div class="col-sm-12 col-md-4">
             <div class="card">
                 <div class="card-header">Пользователи</div>
-                <div class="p-3">
+                <div class="p-3 row">
                     @foreach(User::all() as $user)
-                        <a href="{{route('user.show', $user->id)}}">{{ $user->name }}</a><br>
+                        <div class="col-9 mb-2">
+                            <a href="{{route('user.show', $user->id)}}">{{ $user->name }}</a>
+                        </div>
+                        @if(\Illuminate\Support\Facades\Auth::user()->group == "admin")
+                            <div class="col-3">
+                                <form class="del_user d-inline-block" action="{{ route('user.destroy', $user->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn btn-danger p-1 py-0">Удалить</button>
+                                </form>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
