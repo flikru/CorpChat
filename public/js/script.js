@@ -18,7 +18,6 @@ $(document).on("click", ".select_chat", function(e) {
 
 //Добавление сообщения в чат
 $('#add_message_form').on('submit', function() {
-    //var chat_id = $('.chat_id').val();
     var form_data = new FormData();
     var data = $('#add_message_form').serialize();
     var text = $('input[name="text"]').val();
@@ -61,8 +60,6 @@ $('#add_message_form').on('submit', function() {
 
 })
 
-//Установка активного чата
-
 //Получение сообщений
 $(document).on("click", ".chat-list .get_message_chat", function(e) {
     if(window.location.pathname!="/"){
@@ -79,9 +76,6 @@ $(document).on("click", ".chat-list .get_message_chat", function(e) {
     getMessage($(this));
 });
 
-// $(document).on("click", ".chat-list .get_message_chat", function(e) {
-//     return true;
-// });
 
 //Создание приватного чата
 $('body').on('click', '.chat-list .user_chat_create', function (){
@@ -99,7 +93,6 @@ $('body').on('click', '.chat-list .user_chat_create', function (){
             ActivChatId = chat_id;
             getChats();
             getMessage(null, chat_id);
-            console.log(ActivChatId);
             //setActivChat($(".get_message_chat[chat-id="+chat_id+"]"))
         }
     });
@@ -128,7 +121,7 @@ $(document).ready(function () {
 
 
 
-//удаление чата
+//закрыть чат
 $(document).on("click", ".delete_chat", function(e) {
     if($(this).attr('attr-message')){
         text= $(this).attr('attr-message');
@@ -141,6 +134,7 @@ $(document).on("click", ".delete_chat", function(e) {
     }
 });
 
+//удаление чата
 $(document).on("click", ".destroy_chat", function(e) {
     text="Вы уверены что хотите удалить чат навсегда? Все сообщения исчезнут!";
     var Success = confirm(text);

@@ -39,7 +39,7 @@ $users = User::all();
                 <div id="plist" class="people-list">
                     <div class="input-group">
                         <a href="{{route('home')}}">
-                            <h3>{{ $СurrentUser->name }}
+                            <h3>{{ $CurrentUser->name }}
                             <i class="fa fa-cogs"></i></h3>
                         </a>
                     </div>
@@ -54,6 +54,11 @@ $users = User::all();
                             <div class="name w-100 mb-2">
                                 <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
                                     Создать чат
+                                </a>
+                            </div>
+                            <div class="name w-100 mb-2">
+                                <a href="{{route('chats.show')}}" class="btn btn-info w-100" type="button" >
+                                    Редактор чатов
                                 </a>
                             </div>
                             <div class="name w-100">
@@ -107,7 +112,7 @@ $users = User::all();
     </div>
 </div>
 @include('include.AddChatPopup')
-<input type="text" class="d-none currentuser_id" id="#" value="{{ $СurrentUser->id }}">
+<input type="text" class="d-none currentuser_id" id="#" value="{{ $CurrentUser->id }}">
 {{--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>--}}
 <script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>

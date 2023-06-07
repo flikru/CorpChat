@@ -17,6 +17,8 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', [ChatController::class, 'index'])->name('chat')->middleware('auth');
+Route::get('/chats', [ChatController::class, 'show'])->name('chats.show')->middleware('admin');
+Route::patch('/chat/{chat}', [ChatController::class, 'update'])->name('chat.update')->middleware('admin');
 Route::get('/chat/create', [ChatController::class, 'chatCreate'])->name('chat.create')->middleware('admin');
 Route::post('/chat/storeprivate', [ChatController::class, 'storeprivatechat'])->name('chat.storeprivate')->middleware('auth');
 Route::post('/chat/store', [ChatController::class, 'chatstore'])->name('chat.store')->middleware('auth');

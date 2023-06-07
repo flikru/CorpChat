@@ -137,7 +137,9 @@ class ChatController extends Controller
 
     //Добавление чата
     public function chatstore(Request $request){
-
+        if($request->members == null){
+            return redirect()->route('chat.create');;
+        }
         $СurrentUser = Auth::user();
         $members = $request->members;
         if(isset($request->title)){
@@ -155,4 +157,27 @@ class ChatController extends Controller
 
     }
 
+    public function show(Request $request){
+        $chats = Chat::where('type', 'like', 'chats')->get();
+        $users = User::all();
+        $currentuser = Auth::user();
+        return view('chat.update', compact('chats','users', 'currentuser'));
+    }
+    public function update(Chat $chat, Request $request){
+        $data = $request->all();
+
+        if($data['members']){
+            $members[]=1;
+            $members[] = $data['members'];
+            $chat->users()->detach();
+            foreach ( $members as $member) {
+                $chat->users()->attach($member);
+            }
+            unset($data['members']);
+        }
+
+        $chat->update($data);
+        $chat->save();
+        return redirect()->route('chats.show');
+}
 }

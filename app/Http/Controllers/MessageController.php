@@ -82,6 +82,12 @@ class MessageController extends Controller
             $data["file_path"] = $filename;
             unset($data["file_upload"]);
         }
+        if($data['text']==null && $request->file('file_upload')){
+            $data['text']="Файл";
+        }
+        if($data['text']==null){
+            return json_encode('false');
+        }
         $message = Message::create($data);
         if($message)
             return json_encode($data);
@@ -93,7 +99,7 @@ class MessageController extends Controller
 
         $request->chat_id = $message->chat_id;
         $СurrentUser = Auth::user();
-        if($message->user_id==$СurrentUser->id or $СurrentUser->role=='admin'){
+        if($message->user_id==$СurrentUser->id or $СurrentUser->group=='admin'){
             $message->delete();
             return self::getMessage($request);
             return redirect()->route('chat');

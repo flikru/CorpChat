@@ -32,6 +32,18 @@ $СurrentUser = Auth::user();
                         </div>
                     </div>
 
+                    <div class="row"><div class="col-3">Email:</div>
+                        <div class="col-9">
+                            <input type="text" name = 'email' placeholder="Введите email" value="{{$СurrentUser->email}}">
+                        </div>
+                    </div>
+
+                    <div class="row"><div class="col-3">Смена пароля:</div>
+                        <div class="col-9">
+                            <input type="password" name = 'password' placeholder="Введите пароль" value="">
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-3">Должность:</div>
                         <div class="col-9">

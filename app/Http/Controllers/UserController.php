@@ -10,7 +10,15 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     function update(User $user, Request $request){
+
         $data = $request->all();
+
+        if(strlen($data['password']) > 6 && $data['password'] != null){
+            $data['password'] = bcrypt($data['password']);
+        }else{
+            unset($data["password"]);
+        }
+
         if ($request->isMethod('post') && $request->file('file_upload')) {
             $file = $request->file('file_upload');
             $upload_folder = 'public/user_data/';
@@ -19,6 +27,7 @@ class UserController extends Controller
             $data["photo_path"] = $filename;
             unset($data["file_upload"]);
         }
+
         $newuser = $user->update($data);
         return redirect('home');
     }
