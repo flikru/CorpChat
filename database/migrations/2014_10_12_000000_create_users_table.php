@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('about')->nullable();
             $table->string('photo_path')->default("avatar1.png");
             $table->string('group')->default('users');
-            $table->string('position')->nullable();
+            $table->string('position')->default('Сотрудник');
             $table->string('status')->nullable();
             $table->string('active')->nullable();
             $table->timestamp('email_verified_at')->nullable();

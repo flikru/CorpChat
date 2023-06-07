@@ -18,6 +18,15 @@ if(isset($_GET['chat_id'])){
                     @method('delete')
                     <input type="submit" class="delete_chat" value="х">
                 </form>
+                @if($chat->type=="chats" && Auth::user()->group=="admin")
+
+                    <form action="{{route('chat.destroy',$chat->id)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" class="destroy_chat btn btn-danger" value="DEL">
+                    </form>
+
+                @endif
             @endif
         </div>
         <div class="new_message"></div>

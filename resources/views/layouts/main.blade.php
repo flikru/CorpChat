@@ -39,21 +39,20 @@ $users = User::all();
                 <div id="plist" class="people-list">
                     <div class="input-group">
                         <a href="{{route('home')}}">
-                            <h3>{{ $СurrentUser->name }}
+                            <h3>{{ $CurrentUser->name }}
                             <i class="fa fa-cogs"></i></h3>
                         </a>
                     </div>
-                    {{--<div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Поиск">
-                    </div>--}}
                     <div class="input-group w-100">
                         @if($CurrentUser->group == "admin")
                             <div class="name w-100 mb-2">
                                 <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
                                     Создать чат
+                                </a>
+                            </div>
+                            <div class="name w-100 mb-2">
+                                <a href="{{route('chats.show')}}" class="btn btn-info w-100" type="button" >
+                                    Редактор чатов
                                 </a>
                             </div>
                             <div class="name w-100">
@@ -64,6 +63,12 @@ $users = User::all();
                         @endif
                     </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control search-input" placeholder="Поиск">
+                        </div>
                         <div class="input-group">
                             <b>Чаты</b>
                         </div>
@@ -83,6 +88,9 @@ $users = User::all();
                                 <img src="{{ isset($user->photo_path) ? "/public".Storage::url("public/user_data/$user->photo_path") : "https://bootdey.com/img/Content/avatar/avatar1.png" }}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{ $user->name }}</div>
+                                    @if(isset($user->position))
+                                        <div class="position">{{ $user->position }}</div>
+                                    @endif
                                     @if(15 > (time() - $user->active)/60)
                                         <div class="status"><i class="fa fa-circle online"></i>Онлайн</div>
                                     @else
@@ -104,7 +112,7 @@ $users = User::all();
     </div>
 </div>
 @include('include.AddChatPopup')
-<input type="text" class="d-none currentuser_id" id="#" value="{{ $СurrentUser->id }}">
+<input type="text" class="d-none currentuser_id" id="#" value="{{ $CurrentUser->id }}">
 {{--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>--}}
 <script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>

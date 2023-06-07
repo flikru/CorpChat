@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,8 +15,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = \App\Models\User::factory(5)->create();
+        \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.ru',
+            'email_verified_at' => now(),
+            'about' => 'Администратор',
+            'photo_path' => 'avatar'.rand(1,4).'.png',
+            'group' => 'admin',
+            'password' => bcrypt('admin'), // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        \App\Models\User::factory(5)->create();
         $chats = \App\Models\Chat::factory(1)->create();
+        $users = User::all();
         /*
         $messages = \App\Models\Message::factory(150)->create();
          \App\Models\User::factory()->create([

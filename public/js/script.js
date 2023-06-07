@@ -18,7 +18,6 @@ $(document).on("click", ".select_chat", function(e) {
 
 //Добавление сообщения в чат
 $('#add_message_form').on('submit', function() {
-    //var chat_id = $('.chat_id').val();
     var form_data = new FormData();
     var data = $('#add_message_form').serialize();
     var text = $('input[name="text"]').val();
@@ -54,13 +53,12 @@ $('#add_message_form').on('submit', function() {
             console.log(data);
             getMessage(null, chat_id);
             $('.form-control').val('');
+            $('#file_upload').val('');
         }
     });
     return  false;
 
 })
-
-//Установка активного чата
 
 //Получение сообщений
 $(document).on("click", ".chat-list .get_message_chat", function(e) {
@@ -95,7 +93,6 @@ $('body').on('click', '.chat-list .user_chat_create', function (){
             ActivChatId = chat_id;
             getChats();
             getMessage(null, chat_id);
-            console.log(ActivChatId);
             //setActivChat($(".get_message_chat[chat-id="+chat_id+"]"))
         }
     });
@@ -124,13 +121,22 @@ $(document).ready(function () {
 
 
 
-//удаление чата
+//закрыть чат
 $(document).on("click", ".delete_chat", function(e) {
     if($(this).attr('attr-message')){
         text= $(this).attr('attr-message');
     }else{
         text="Вы уверены что хотите выйти из чата?";
     }
+    var Success = confirm(text);
+    if(Success==false){
+        return false;
+    }
+});
+
+//удаление чата
+$(document).on("click", ".destroy_chat", function(e) {
+    text="Вы уверены что хотите удалить чат навсегда? Все сообщения исчезнут!";
     var Success = confirm(text);
     if(Success==false){
         return false;
@@ -150,7 +156,17 @@ $('#btn_load_message').on('click', function (){
     getPrevMessage();
 })
 
+$('.search-input').keyup( function (){
+    $('.chat-list li').addClass('d-none');
+    var search = $(this).val().toLowerCase();
+    $('.chat-list li').each(function (index){
+        var str = $(this).find('.name').html().toLowerCase();
+        if(str.search(search) !== -1){
+            $(this).removeClass('d-none');
+        }
 
+    });
+})
 //Отключение автопрокрутки
 var oldScrollPosition = 0;
 document.querySelector('.chat-history').addEventListener('wheel', function(evt) {

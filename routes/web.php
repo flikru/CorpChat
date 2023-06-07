@@ -17,11 +17,16 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', [ChatController::class, 'index'])->name('chat')->middleware('auth');
+Route::get('/chats', [ChatController::class, 'show'])->name('chats.show')->middleware('admin');
+Route::patch('/chat/{chat}', [ChatController::class, 'update'])->name('chat.update')->middleware('admin');
 Route::get('/chat/create', [ChatController::class, 'chatCreate'])->name('chat.create')->middleware('admin');
 Route::post('/chat/storeprivate', [ChatController::class, 'storeprivatechat'])->name('chat.storeprivate')->middleware('auth');
 Route::post('/chat/store', [ChatController::class, 'chatstore'])->name('chat.store')->middleware('auth');
 Route::get('/chat/getchats', [ChatController::class, 'getChats'])->name('chat.getchats')->middleware('auth');
 Route::delete('/chat/close/{chat}', [ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
+Route::delete('/chat/destroy/{chat}', [ChatController::class, 'destroyChat'])->name('chat.destroy')->middleware('admin');
+
+//Route::get('/chat/{chat}', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
 
 
 Route::get('/message/getMessage', [MessageController::class, 'getMessage'])->name('message.getmessage')->middleware('auth');
@@ -33,6 +38,7 @@ Route::delete('/message/delete/{message}', [MessageController::class, 'destroy']
 
 Route::post('/user/{user}', [UserController::class, 'update'])->name('user.update')->middleware('auth');
 Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show')->middleware('auth');
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy')->middleware('admin');
 
 
 Auth::routes();

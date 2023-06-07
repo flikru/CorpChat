@@ -10,12 +10,18 @@ use App\Http\Controllers\MessageController;
 
 class ChatController extends Controller
 {
-
+//    public function index(Chat $chat){
+//        //dd($chat);
+//
+//        //dump($msg);
+//        $СurrentUser = Auth::user();
+//        $users = User::all();
+//        $members = Chat::find(1)->first()->users;
+//        $messages = $chat->messages;
+//        return view('chat.index',compact('users', 'СurrentUser', 'members','chat','messages'));
+//    }
     //Загрузка главной
     public function index(){
-        //dd($chat);
-
-        //dump($msg);
         $СurrentUser = Auth::user();
         $users = User::all();
         $members = Chat::find(1)->first()->users;
@@ -103,7 +109,7 @@ class ChatController extends Controller
 
     }
 
-    //Удаление чата
+    //Закрытие чата
     public function closeChat(Chat $chat){
 
         if($chat->id==1){
@@ -117,12 +123,30 @@ class ChatController extends Controller
 
     }
 
+    //Закрытие чата
+    public function destroyChat(Chat $chat){
+
+        if($chat->id==1){
+            return redirect()->route('chat');
+        }
+
+        $chat->delete();
+        return redirect()->route('chat');
+
+    }
+
     //Добавление чата
     public function chatstore(Request $request){
-
+        if($request->members == null){
+            return redirect()->route('chat.create');;
+        }
         $СurrentUser = Auth::user();
         $members = $request->members;
-        $data['title'] = $request->title;
+        if(isset($request->title)){
+            $data['title'] = $request->title;
+        }else{
+            $data['title'] = "Чат от ".Auth::user()->name;
+        }
         $data['user_id'] = Auth::user()->id;
         $chat = Chat::create($data);
         $chat->users()->attach(Auth::user()->id);
@@ -132,6 +156,28 @@ class ChatController extends Controller
         return redirect()->route('chat');
 
     }
-    //
 
+    public function show(Request $request){
+        $chats = Chat::where('type', 'like', 'chats')->get();
+        $users = User::all();
+        $currentuser = Auth::user();
+        return view('chat.update', compact('chats','users', 'currentuser'));
+    }
+    public function update(Chat $chat, Request $request){
+        $data = $request->all();
+
+        if($data['members']){
+            $members[]=1;
+            $members[] = $data['members'];
+            $chat->users()->detach();
+            foreach ( $members as $member) {
+                $chat->users()->attach($member);
+            }
+            unset($data['members']);
+        }
+
+        $chat->update($data);
+        $chat->save();
+        return redirect()->route('chats.show');
+}
 }

@@ -90,5 +90,16 @@
         </main>
     </div>
     <script src="{{asset('public/build/assets/app-2c989934.js')}}"></script>
+    <script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
+
+    <script>
+        $(document).on("click", ".del_user .btn-danger", function(e) {
+            text="Вы уверены что хотите удалить пользователя?";
+            var Success = confirm(text);
+            if(Success==false){
+                return false;
+            }
+        });
+    </script>
 </body>
 </html>
