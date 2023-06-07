@@ -156,7 +156,17 @@ $('#btn_load_message').on('click', function (){
     getPrevMessage();
 })
 
+$('.search-input').keyup( function (){
+    $('.chat-list li').addClass('d-none');
+    var search = $(this).val().toLowerCase();
+    $('.chat-list li').each(function (index){
+        var str = $(this).find('.name').html().toLowerCase();
+        if(str.search(search) !== -1){
+            $(this).removeClass('d-none');
+        }
 
+    });
+})
 //Отключение автопрокрутки
 var oldScrollPosition = 0;
 document.querySelector('.chat-history').addEventListener('wheel', function(evt) {

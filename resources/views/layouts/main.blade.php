@@ -43,12 +43,6 @@ $users = User::all();
                             <i class="fa fa-cogs"></i></h3>
                         </a>
                     </div>
-                    {{--<div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Поиск">
-                    </div>--}}
                     <div class="input-group w-100">
                         @if($CurrentUser->group == "admin")
                             <div class="name w-100 mb-2">
@@ -69,6 +63,12 @@ $users = User::all();
                         @endif
                     </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control search-input" placeholder="Поиск">
+                        </div>
                         <div class="input-group">
                             <b>Чаты</b>
                         </div>
