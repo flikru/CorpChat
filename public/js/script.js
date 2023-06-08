@@ -51,7 +51,7 @@ $('#add_message_form').on('submit', function() {
         'contentType': false,
         'processData': false,
         'success': function (data) {
-
+            console.log(data);
             getMessage(null, chat_id);
             $('.form-control').val('');
             $('#file_upload').val('');

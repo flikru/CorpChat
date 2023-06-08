@@ -71,6 +71,21 @@ class MessageController extends Controller
 
     public function addMessage(Request $request){
         $data = $request->all();
+        $privateId = $data['chat_id'];
+        $chatPrivate = Chat::find($privateId);
+        if($chatPrivate->type != "chats"){
+            $ret = explode('_',$chatPrivate->type);
+            $userTwo = ($ret[0] == Auth::user()->id) ? $ret[1] : $ret[0];
+            $addUser = true;
+            foreach ($chatPrivate->users as $user){
+                if($userTwo == $user->id){
+                    $addUser=false;
+                }
+            }
+            if($addUser==true) {
+                $chatPrivate->users()->attach($userTwo);
+            }
+        }
         $СurrentUser = Auth::user();
         $СurrentUser->active = time();
         $СurrentUser->save();

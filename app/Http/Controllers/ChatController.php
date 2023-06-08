@@ -61,11 +61,10 @@ class ChatController extends Controller
     }
 
     //Создание приватного чата
-    public function storePrivateChat(Request $request){
+    public static function storePrivateChat(Request $request){
 
         $СurrentUserID = Auth::user()->id;
         $user_id = $request->user_id;
-
         //Поиск дублей чатов
         $name_private_chat = $СurrentUserID."_".$user_id;
         $name_private_chat2 = $user_id."_".$СurrentUserID;
@@ -109,8 +108,14 @@ class ChatController extends Controller
 
     }
 
-    //Закрытие чата
+    //Скрытие чата
     public function closeChat(Chat $chat){
+
+//        $CurrentUser = Auth::user();
+//        $hiddenchats = $CurrentUser->hiddenchats;
+//        $hiddenchats .= $chat->id.';';
+//        $CurrentUser->hiddenchats = $hiddenchats;
+//        $CurrentUser->save();
 
         if($chat->id==1){
             return redirect()->route('chat');
@@ -123,9 +128,8 @@ class ChatController extends Controller
 
     }
 
-    //Закрытие чата
+    //Удаление чата администратором
     public function destroyChat(Chat $chat){
-
         if($chat->id==1){
             return redirect()->route('chat');
         }
