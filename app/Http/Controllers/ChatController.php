@@ -122,7 +122,7 @@ class ChatController extends Controller
         }
         $chat->users()->detach(Auth::user()->id);
         if($chat->users->count()==0){
-            $chat->delete();
+            //$chat->delete();
         }
         return redirect()->route('chat');
 
