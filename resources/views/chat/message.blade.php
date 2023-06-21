@@ -31,7 +31,7 @@
                     ?>
                 </div>
             @endif
-            {{$message->text}}
+            <div style="white-space: pre-line">{{$message->text}}</div>
             @if($message->user_id == $СurrentUser->id or $СurrentUser->group=='admin')
             <form action="{{route('message.destroy',$message->id)}}" method="post">
                 @csrf

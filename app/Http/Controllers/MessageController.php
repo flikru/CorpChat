@@ -19,7 +19,6 @@ class MessageController extends Controller
         //$messages = Message::where('chat_id',$chat_id)->orderBy('id', 'asc')->take(40)->get();
         $messages = Message::where('chat_id',$chat_id)->orderBy('id', 'desc')->take(40)->get()->reverse();
         $infoChat = Chat::where('id', $chat_id)->first();
-
         $members = $infoChat->users;
 
         if($infoChat->type != "chats"){
