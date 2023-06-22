@@ -41,7 +41,7 @@
 {{--                            <input type="file" class="fa fa-image btn btn-outline-primary" value="" placeholder="Загрузить">--}}
                             <div class="row">
                                 <div class="col-sm-8 col-md-12 col-lg-9 position-relative">
-                                    <input type="text" class="form-control" name="text" placeholder="Введите сообщение">
+                                    <textarea class="form-control" name="text" placeholder="Введите сообщение"></textarea>
                                     <label for="file_upload" class="label_upload btn btn-info">Загрузить</label>
                                 </div>
                                 <div class="col-sm-4 col-md-12 col-lg-3">

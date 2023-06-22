@@ -21,7 +21,7 @@ $(document).on("click", ".select_chat", function(e) {
 $('#add_message_form').on('submit', function() {
     var form_data = new FormData();
     var data = $('#add_message_form').serialize();
-    var text = $('input[name="text"]').val();
+    var text = $('textarea[name="text"]').val();
     var user_id = $('input[name="user_id"]').val();
     var chat_id = $('input[name="chat_id"]').val();
     var token = $('input[name="_token"]').val();
