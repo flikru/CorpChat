@@ -69,6 +69,7 @@ class MessageController extends Controller
     }
 
     public function addMessage(Request $request){
+        date_default_timezone_set('Asia/Yekaterinburg');
         $data = $request->all();
         $privateId = $data['chat_id'];
         $chatPrivate = Chat::find($privateId);
