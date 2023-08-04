@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
+            $table->text('text');
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')
