@@ -6,6 +6,11 @@ var titleAlertOn = false;
 $(window).on('load', function (){
     $('.chat_id').val(ActivChatId);
     getMessage($('#main_chat'));
+
+    $(document).on("click", "#users-list", function(e) {
+        $('.users-list').slideToggle(300);
+        $(this).toggleClass("open");
+    })
 });
 
 //открытие меню для мобилки

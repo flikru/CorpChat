@@ -39,9 +39,11 @@ body{
 }
 
 .people-list .chat-list li {
-    padding: 10px 15px;
+    padding: 4px 7px;
     list-style: none;
-    border-radius: 3px
+    display: flex;
+    border-radius: 3px;
+    border-bottom: 1px solid #afafaf;
 }
 
 .people-list .chat-list li:hover {
@@ -58,21 +60,35 @@ body{
 }
 
 .people-list .chat-list img {
-    width: 45px;
+    width: 35px;
     border-radius: 50%
 }
-
+.chat-list .input-group{
+    margin: 10px 0px;
+}
 .people-list img {
     float: left;
     border-radius: 50%
 }
-
-.people-list .about {
-    float: left;
-    padding-left: 8px;
-    max-width: 148px;
+.users-list{
+    padding:0px;
+    overflow: hidden;
 }
-
+#users-list{
+    cursor: pointer;
+}
+.people-list .about {
+    padding-left: 8px;
+    max-width: 100%;
+}
+.fa{
+    vertical-align: top !important;
+}
+.img-users .status{
+    position: absolute;
+    top:0px;
+    left: 0px;
+}
 .people-list .status {
     color: #999;
     font-size: 13px
@@ -320,6 +336,69 @@ input[type="file"] {
 .position{
     font-size: 12px;
     color: #737373;
+}
+
+.arrow-4 {
+    position: absolute;
+    cursor: pointer;
+    width: 33px;
+    height: 15px;
+    right: 10px;
+}
+.arrow-4-left {
+    position: absolute;
+    background-color: transparent;
+    top: 10px;
+    left: 0;
+    width: 20px;
+    height: 5px;
+    display: block;
+    transform: rotate(35deg);
+    float: right;
+    border-radius: 2px;
+}
+.arrow-4-left:after {
+    content: "";
+    background-color: #17a2b8;
+    width: 20px;
+    height: 5px;
+    display: block;
+    float: right;
+    border-radius: 6px 10px 10px 6px;
+    transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+    z-index: -1;
+}
+
+.arrow-4-right {
+    position: absolute;
+    background-color: transparent;
+    top: 10px;
+    left: 13px;
+    width: 20px;
+    height: 5px;
+    display: block;
+    transform: rotate(-35deg);
+    float: right;
+    border-radius: 2px;
+}
+.arrow-4-right:after {
+    content: "";
+    background-color: #17a2b8;
+    width: 20px;
+    height: 5px;
+    display: block;
+    float: right;
+    border-radius: 10px 6px 6px 10px;
+    transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+    z-index: -1;
+}
+.open .arrow-4-left:after {
+    transform-origin: center center;
+    transform: rotate(-70deg);
+}
+.open .arrow-4-right:after {
+    transform-origin: center center;
+    transform: rotate(70deg);
 }
 @media only screen and (min-width: 768px) and (max-width: 992px) {
 
