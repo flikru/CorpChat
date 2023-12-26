@@ -10,7 +10,12 @@ $(window).on('load', function (){
     $(document).on("click", "#users-list", function(e) {
         $('.users-list').slideToggle(300);
         $(this).toggleClass("open");
-    })
+    });
+
+    $(document).on("click", ".open_list_member", function(e) {
+        $(this).closest('.cnt-list-member').find('.list_member').slideToggle(300);
+    });
+
 });
 
 //открытие меню для мобилки
