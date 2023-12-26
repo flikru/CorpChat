@@ -22,7 +22,6 @@
             </div>
         </div>
         @foreach($chats as $chat)
-<??>
             <form action="{{route('chat.update', $chat->id)}}" method="post">
                 @csrf
                 @method('patch')
@@ -31,7 +30,9 @@
                     <div class="col-3">
                         <input type="text" id="name_chat" name="title" placeholder="Введите название чата" value="{{$chat->title}}">
                     </div>
-                    <div class="col-7">
+                    <div class="col-7 cnt-list-member">
+                        <a class="open_list_member">Открыть/закрыть список</a>
+                        <div class="list_member" style="display: none">
                          @foreach($users as $user)
                              <?
                              if($user->id == Auth::user()->id){
@@ -51,7 +52,7 @@
                                  </label>
                              </div>
                          @endforeach
-
+                        </div>
                     </div>
                     <div class="col-1">
                         <button class="btn btn-info w-100">SAVE</button>

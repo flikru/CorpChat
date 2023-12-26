@@ -358,6 +358,14 @@ input[type="file"] {
     float: right;
     border-radius: 2px;
 }
+.open_list_member{
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.list_member{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
 .arrow-4-left:after {
     content: "";
     background-color: #17a2b8;
