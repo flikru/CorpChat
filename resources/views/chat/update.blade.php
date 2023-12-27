@@ -56,6 +56,7 @@
                     </div>
                     <div class="col-1">
                         <button class="btn btn-info w-100">SAVE</button>
+                        <a href="{{route('chat.clear', $chat->id)}}">Очистить сообщения</a>
                     </div>
                 </div>
             </form>

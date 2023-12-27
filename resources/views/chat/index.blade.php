@@ -1,3 +1,6 @@
+<?php
+
+?>
 @extends('layouts.main')
 @section('content')
                     <div class="chat-header clearfix">
@@ -17,6 +20,8 @@
                                             <a class="dropdown-item" href="#">{{$member->name}}</a>
                                         @endforeach
                                     </div>
+                                </div>
+                                <div>
                                 </div>
                             </div>
                         </div>

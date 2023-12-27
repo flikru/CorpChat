@@ -25,6 +25,7 @@ Route::post('/chat/store', [ChatController::class, 'chatstore'])->name('chat.sto
 Route::get('/chat/getchats', [ChatController::class, 'getChats'])->name('chat.getchats')->middleware('auth');
 Route::delete('/chat/close/{chat}', [ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
 Route::delete('/chat/destroy/{chat}', [ChatController::class, 'destroyChat'])->name('chat.destroy')->middleware('admin');
+Route::get('/chat/clear/{chat}', [ChatController::class, 'clearChat'])->name('chat.clear')->middleware('admin');
 
 //Route::get('/chat/{chat}', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
 

@@ -167,6 +167,7 @@ class ChatController extends Controller
         $currentuser = Auth::user();
         return view('chat.update', compact('chats','users', 'currentuser'));
     }
+
     public function update(Chat $chat, Request $request){
         $data = $request->all();
 
@@ -184,4 +185,8 @@ class ChatController extends Controller
         $chat->save();
         return redirect()->route('chats.show');
 }
+    public function clearChat(Chat $chat){
+        $chat->messages()->delete();
+        return redirect()->route('chats.show');
+    }
 }

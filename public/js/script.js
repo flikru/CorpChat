@@ -227,7 +227,7 @@ function titleAlert(){
        timerIdAlert = setInterval(()=>{
             titleFlag = document.title;
             if(titleFlag == "Чат"){
-                titleFlag = "Новое сообщение"
+                titleFlag = "!НОВОЕ СООБЩЕНИЕ!"
             }else{
                 titleFlag = "Чат"
             }
