@@ -25,6 +25,7 @@ $users = User::all();
     <link rel="stylesheet" href="{{asset('public/css/svg.css')}}">
     <link type="image/x-icon" href="/favicon.png" rel="shortcut icon">
     <link type="Image/x-icon" href="/favicon.png" rel="icon">
+    <script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
     <title>Чат</title>
 
 </head>
@@ -37,38 +38,40 @@ $users = User::all();
             <div class="card chat-app">
                 <button class="btn btn-info w-100 select_chat">Меню</button>
                 <div id="plist" class="people-list">
-                    <div class="input-group">
-                        <a href="{{route('home')}}">
-                            <h3>{{ $CurrentUser->name }}
-                            <i class="fa fa-cogs"></i></h3>
-                        </a>
-                    </div>
-                    <div class="input-group w-100">
+                    <div class="control-part">
+                        <div class="input-group">
+                            <a href="{{route('home')}}">
+                                <h3>{{ $CurrentUser->name }}
+                                <i class="fa fa-cogs"></i></h3>
+                            </a>
+                        </div>
                         @if($CurrentUser->group == "admin")
-                            <div class="name w-100 mb-2">
-                                <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
+                        <div class="input-group w-100 admin-group">
+                            <div class="name">
+                                <a href="{{route('editor.create')}}" class="btn btn-info w-100" type="button" >
                                     Создать чат
                                 </a>
                             </div>
-                            <div class="name w-100 mb-2">
-                                <a href="{{route('chats.show')}}" class="btn btn-info w-100" type="button" >
+                            <div class="name">
+                                <a href="{{route('editor.index')}}" class="btn btn-info w-100" type="button" >
                                     Редактор чатов
                                 </a>
                             </div>
-                            <div class="name w-100">
+                            <div class="name">
                                 <a href="{{route('register')}}" class="btn btn-info w-100" type="button" >
                                     Добавить участника
                                 </a>
                             </div>
+                        </div>
                         @endif
-                    </div>
-                    <ul class="list-unstyled chat-list mt-2 mb-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
                             </div>
                             <input type="text" class="form-control search-input" placeholder="Поиск">
                         </div>
+                    </div>
+                    <ul class="list-unstyled chat-list mt-2 mb-0">
                         <div class="input-group">
                             <b>Чаты</b>
                         </div>
@@ -122,10 +125,10 @@ $users = User::all();
 @include('include.AddChatPopup')
 <input type="text" class="d-none currentuser_id" id="#" value="{{ $CurrentUser->id }}">
 {{--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>--}}
-<script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 {{--<script src="{{asset('public/js/bootstrap.bundle.min.js')}}">--}}
 <script src="{{asset('public/js/popper.min.js')}}"></script>
 <script src="{{asset('public/js/script.js')}}"></script>
+<script src="{{asset('public/js/sitefunctions.js')}}"></script>
 </body>
 </html>

@@ -14,25 +14,41 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//По чату
+//Route::get('/', [ChatController::class, 'index'])->name('chat')->middleware('auth');
+Route::get('/', function (){ return redirect()->route('chat.show',["chat"=>1]); });
+Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chat.show')->middleware('auth');
+//Получить сообщения
+Route::get('/chat/{chat}', [ChatController::class, 'getmsg'])->name('chat.getmsg')->middleware('auth');
+//Получить новые сообщения
+Route::get('/chat/getnewmsg/{chat}/{msg}', [ChatController::class, 'getnewmsg'])->name('chat.getnewmsg')->middleware('auth');
+//подгрузить старые сообщения
+Route::get('/chat/{chat}/{msg}', [ChatController::class, 'getprevmsg'])->name('chat.getprevmsg')->middleware('auth');
+Route::get('/chatsget', [ChatController::class, 'getChats'])->name('chat.getchats')->middleware('auth');
+Route::get('/chatscheck', [ChatController::class, 'checkChats'])->name('chats.check')->middleware('auth');
+
+//По редактору
+Route::get('/editor', [ChatController::class, 'editor'])->name('editor.index')->middleware('admin');
+Route::patch('/editor/{chat}', [ChatController::class, 'update'])->name('editor.update')->middleware('admin');
+Route::get('/editor/create', [ChatController::class, 'chatCreate'])->name('editor.create')->middleware('admin');
+Route::post('/editor/store', [ChatController::class, 'chatstore'])->name('editor.store')->middleware('auth');
+Route::post('/editor/storeprivate', [ChatController::class, 'storeprivatechat'])->name('editor.storeprivate')->middleware('auth');
+Route::get('/editor/clear/{chat}', [ChatController::class, 'clearChat'])->name('chat.clear')->middleware('admin');
+Route::delete('/editor/destroy/{chat}', [ChatController::class, 'destroyChat'])->name('chat.destroy')->middleware('admin');
+Route::delete('/editor/close/{chat}', [ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
+Route::post('/editor/storeprivate', [ChatController::class, 'storeprivatechat'])->name('chat.storeprivate')->middleware('auth');
 
 
-Route::get('/', [ChatController::class, 'index'])->name('chat')->middleware('auth');
-Route::get('/chats', [ChatController::class, 'show'])->name('chats.show')->middleware('admin');
-Route::patch('/chat/{chat}', [ChatController::class, 'update'])->name('chat.update')->middleware('admin');
-Route::get('/chat/create', [ChatController::class, 'chatCreate'])->name('chat.create')->middleware('admin');
-Route::post('/chat/storeprivate', [ChatController::class, 'storeprivatechat'])->name('chat.storeprivate')->middleware('auth');
-Route::post('/chat/store', [ChatController::class, 'chatstore'])->name('chat.store')->middleware('auth');
-Route::get('/chat/getchats', [ChatController::class, 'getChats'])->name('chat.getchats')->middleware('auth');
-Route::delete('/chat/close/{chat}', [ChatController::class, 'closeChat'])->name('chat.close')->middleware('auth');
-Route::delete('/chat/destroy/{chat}', [ChatController::class, 'destroyChat'])->name('chat.destroy')->middleware('admin');
-Route::get('/chat/clear/{chat}', [ChatController::class, 'clearChat'])->name('chat.clear')->middleware('admin');
+//Route::get('/', [ChatController::class, 'index'])->name('chat')->middleware('auth');
+//Route::get('/editor/', [ChatController::class, 'show'])->name('chats.show')->middleware('admin');
 
 //Route::get('/chat/{chat}', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
 
 
-Route::get('/message/getMessage', [MessageController::class, 'getMessage'])->name('message.getmessage')->middleware('auth');
-Route::get('/message/updateMessage', [MessageController::class, 'updateMessage'])->name('message.updatemessage')->middleware('auth');
-Route::get('/message/getPrevMessage', [MessageController::class, 'getPrevMessage'])->name('message.getPrevMessage')->middleware('auth');
+//Route::get('/message/getMessage', [MessageController::class, 'getMessage'])->name('message.getmessage')->middleware('auth');
+//Route::get('/message/updateMessage', [MessageController::class, 'updateMessage'])->name('message.updatemessage')->middleware('auth');
+//Route::get('/message/getPrevMessage', [MessageController::class, 'getPrevMessage'])->name('message.getPrevMessage')->middleware('auth');
+//Route::get('/message/getprev/{chat}', [MessageController::class, 'getprev'])->name('message.getprev')->middleware('auth');
 Route::post('/message/addMessage', [MessageController::class, 'addMessage'])->name('message.store')->middleware('auth');
 Route::delete('/message/delete/{message}', [MessageController::class, 'destroy'])->name('message.destroy')->middleware('auth');
 
