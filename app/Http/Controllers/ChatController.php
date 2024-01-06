@@ -172,7 +172,10 @@ class ChatController extends Controller
         $cuser = Auth::user();
         $hesaw = $cuser->newmessages;
         $arHS = json_decode($hesaw,true);
-
+        if(!is_array($arHS) && !empty($arHS)){
+            $cuser->newmessages=json_encode([]);
+            $cuser->save();
+        }
         //Получение сообщений
         $lastmsg = $msg->id;
         $messages = $chat->messages->where('id','>',$lastmsg)->reverse();
