@@ -30,6 +30,7 @@ $СurrentUser = Auth::user();
             <div class="from_message ">
                 <span class="date-msg">{{date("h:i",strtotime($message->created_at))}}</span>,
                 <span class="name-msg"><b>{{$message->user->name}}</b></span>
+                <span class="answer-btn">ответить</span>
             </div>
             @if(isset($message->file_path))
                 <div class="from_message ">
@@ -47,7 +48,7 @@ $СurrentUser = Auth::user();
                     ?>
                 </div>
             @endif
-            <div style="white-space: pre-line">{{$message->text}}</div>
+            <div style="white-space: pre-line" class="text-cnt">{!! $message->text !!}</div>
             @if($message->user_id == $СurrentUser->id or $СurrentUser->group=='admin')
             <form action="{{route('message.destroy',$message->id)}}" method="post">
                 @csrf

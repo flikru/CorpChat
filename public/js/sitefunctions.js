@@ -22,6 +22,14 @@ $("#smile-open").click(function (e){
     $('#cnt-smile').toggle();
     return false;
 })
+$("body").on('click','.answer-btn', function (){
+    let html = $(this).closest('.msg-item');
+    let name = "<div>"+html.find('.name-msg').html()+"</div>";
+    let text = "<div>"+html.find('.text-cnt').html()+"</div>";
+    let answer = "<div class='answer-cnt'>"+name+text+"</div>\n";
+    insertText('text-area-main', answer);
+
+})
 
 //Вставка текста по курсору
 function insertText( id, text ) {

@@ -585,7 +585,24 @@ ul{
     color: #ff4040;
     font-width: 600;
 }
+.answer-btn{
+    color: #686868;
+    opacity: 0.6;
+    cursor: pointer;
+    margin-left: 10px;
+}
 
+.answer-btn:hover{
+    color: #686868;
+    opacity: 1;
+}
+.answer-cnt{
+    background-color: #ffda77;
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid #adadad;
+    border-radius: 5px;
+}
 
 
 
