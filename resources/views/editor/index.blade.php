@@ -22,7 +22,7 @@
             </div>
         </div>
         @foreach($chats as $chat)
-            <form action="{{route('chat.update', $chat->id)}}" method="post">
+            <form action="{{route('editor.update', $chat->id)}}" method="post">
                 @csrf
                 @method('patch')
                 <div class="row mb-4 border-bottom border-dark pb-2">

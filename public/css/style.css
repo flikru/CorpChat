@@ -153,7 +153,8 @@ body{
     font-size: 16px;
     border-radius: 7px;
     display: inline-block;
-    position: relative
+    position: relative;
+    width: 100%;
 }
 
 .chat .chat-history .message:after {
@@ -189,8 +190,8 @@ body{
 }
 
 .chat .chat-history .other-message {
-    background: #e8f1f3;
-    text-align: right
+    background: #b2f1ff;
+    text-align: left;
 }
 
 .chat .chat-history .other-message:after {
@@ -222,7 +223,16 @@ body{
 .me {
     color: #1d8ecd
 }
-
+.newmessage{
+    border-radius: 1px 5px 5px 1px;
+    height: 100%;
+    width: 40px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-color: #17a2b8;
+    z-index: -1;
+}
 .float-right {
     float: right
 }
@@ -239,6 +249,11 @@ body{
 }
 .select_chat{
     display: none;
+}
+.data-list-msg{
+    font-weight: 700;
+    text-align: center;
+    font-size: 24px;
 }
 @media only screen and (max-width: 767px) {
     .select_chat{
@@ -279,7 +294,12 @@ body{
 .from_message{
     font-size: 12px;
 }
-
+.from_message .date-msg{
+    font-size: 10px;
+}
+.from_message .name-msg{
+    font-size: 14px;
+}
 .delete_chat{
     position: absolute;
     top: 4px;
@@ -320,12 +340,7 @@ input[type="file"] {
     cursor:pointer;
 }
 .new_message{
-    border-radius: 50%;
-    height: 15px;
-    width: 15px;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+
 }
 .destroy_chat{
     position: absolute;

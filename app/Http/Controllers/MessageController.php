@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class MessageController extends Controller
 {
     //Загрузка сообщение в чат
-    public static function getMessage(Request $request){
+   /* public static function getMessage(Request $request){
 
         $СurrentUser = Auth::user();
         $chat_id = $request->chat_id;
@@ -29,8 +29,8 @@ class MessageController extends Controller
 
         return view('chat.message',compact('messages','infoChat', 'СurrentUser', 'members'));
     }
-
-    public static function getPrevMessage(Request $request){
+*/
+   /* public static function getPrevMessage(Request $request){
         $last_id = $request->first_message_id;
         $chat_id = $request->chat_id;
 
@@ -41,7 +41,7 @@ class MessageController extends Controller
         $infoChat = Chat::where('id', $chat_id)->first();
         $update=true;
         return view('chat.message',compact('messages','infoChat', 'СurrentUser','update'));
-    }
+    }*/
 
     public static function updateMessage(Request $request){
         $new_in_chats=[];

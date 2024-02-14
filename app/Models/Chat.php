@@ -18,6 +18,6 @@ class Chat extends Model
         return $this->belongsToMany(User::class);
     }
     public function messages(){
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)->orderBy('id','desc');
     }
 }

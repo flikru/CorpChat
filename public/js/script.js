@@ -1,12 +1,15 @@
 var СurrentUser = $('.currentuser_id').val();
-var ActivChatId = $('#main_chat').attr('chat-id');
 var scroll = false;
 var titleAlertOn = false;
+var chat_id;
 
+let url = window.location.pathname.split('/');
+if(url[2] && url[1]=='chats'){
+    chat_id = url[2];
+}else{
+    chat_id = 0;
+}
 $(window).on('load', function (){
-    $('.chat_id').val(ActivChatId);
-    getMessage($('#main_chat'));
-
     $(document).on("click", "#users-list", function(e) {
         $('.users-list').slideToggle(300);
         $(this).toggleClass("open");
@@ -17,7 +20,9 @@ $(window).on('load', function (){
     });
 
 });
-
+$(window).ready(function (){
+    getChats();
+})
 //открытие меню для мобилки
 $(document).on("click", ".select_chat", function(e) {
     if($('.people-list').hasClass('visible-people-list')){
@@ -28,26 +33,31 @@ $(document).on("click", ".select_chat", function(e) {
 })
 
 //Добавление сообщения в чат
+$(document).keydown(function(e) {
+    if(e.keyCode === 13) {
+        $("#add_message_form").submit();
+    }
+});
 $('#add_message_form').on('submit', function() {
+    let id;
+
     var form_data = new FormData();
     var data = $('#add_message_form').serialize();
     var text = $('textarea[name="text"]').val();
     var user_id = $('input[name="user_id"]').val();
-    var chat_id = $('input[name="chat_id"]').val();
     var token = $('input[name="_token"]').val();
 
     if($('#file_upload').prop('files').length>0){
         var file_data = $('#file_upload').prop('files')[0];
         form_data.append('file_upload', file_data);
     }
-
     form_data.append('text', text);
     form_data.append('user_id', user_id);
     form_data.append('chat_id', chat_id);
     form_data.append('_token', token);
     form_data.append('_method', "post");
 
-        $.ajaxSetup({
+    $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('input[name="_token"]').val()
         }
@@ -61,15 +71,14 @@ $('#add_message_form').on('submit', function() {
         'contentType': false,
         'processData': false,
         'success': function (data) {
-            console.log(data);
-            getMessage(null, chat_id);
+            getmsg(chat_id);
             $('.form-control').val('');
             $('#file_upload').val('');
         }
     });
     return  false;
+});
 
-})
 $(document).on("click", "html", function(e) {
     $(".listChats .active").find(".new_message").removeClass('bg-success');
     if(titleAlertOn == true){
@@ -79,28 +88,7 @@ $(document).on("click", "html", function(e) {
     }
 })
 //Получение сообщений
-$(document).on("click", ".chat-list .get_message_chat", function(e) {
 
-    if(window.location.pathname!="/"){
-        document.location.href = '/?chat_id='+$(this).attr('chat-id');
-    }
-
-    if($('.people-list').hasClass('visible-people-list')){
-        $('.people-list').removeClass('visible-people-list')
-    }else{
-        $('.people-list').addClass('visible-people-list')
-    }
-
-    $(this).find(".new_message").removeClass('bg-success');
-    if(titleAlertOn == true){
-        titleAlertOn = false;
-        clearInterval(timerIdAlert);
-        document.title = "Чат";
-    }
-
-    setActivChat($(this));
-    getMessage($(this));
-});
 
 //Создание приватного чата
 $('body').on('click', '.chat-list .user_chat_create', function (){
@@ -108,40 +96,18 @@ $('body').on('click', '.chat-list .user_chat_create', function (){
     var csrf=$('.get-token input').val();
     $.ajax({
         'type': 'post',
-        'url': '/chat/storeprivate',
+        'url': '/editor/storeprivate',
         'data': {
             'user_id': user_id,
             '_token': csrf,
         },
         'dataType': 'html',
         'success': function (chat_id) {
-            ActivChatId = chat_id;
             getChats();
             getMessage(null, chat_id);
         }
     });
 });
-
-
-//пока не нужный попап
-$(document).ready(function () {
-    $("a.myLinkModal").click(function (event) {
-        event.preventDefault();
-        $("#myOverlay").fadeIn(297, function () {
-            $("#popup_add_chat")
-                .css("display", "block")
-                .animate({ opacity: 1 }, 198);
-        });
-    });
-
-    $("#popup_close_chat, #myOverlay").click(function () {
-        $("#popup_add_chat").animate({ opacity: 0 }, 198, function () {
-            $(this).css("display", "none");
-            $("#myOverlay").fadeOut(297);
-        });
-    });
-});
-//пока не нужный попап
 
 
 
@@ -196,7 +162,7 @@ var oldScrollPosition = 0;
 document.querySelector('.chat-history').addEventListener('wheel', function(evt) {
 
     div = $('.chat-history');
-    if(div.scrollTop() == 0 && $('.chat-history li').length>39){
+    if(div.scrollTop() == 0 && $('.chat-history li').length>9){
         $(".btn_load_message").show();
     }
     scroll = true;
@@ -213,75 +179,69 @@ document.querySelector('.chat-history').addEventListener('wheel', function(evt) 
     }
 });
 
-//установка активного чата
-function setActivChat(el){
-    $('#main_chat').removeAttr('id');
-    el.attr('id','main_chat');
-    ActivChatId = el.attr('chat-id');
-    $(".btn_load_message").hide();
-}
 
 var timerIdAlert;
 function titleAlert(){
-
-       timerIdAlert = setInterval(()=>{
-            titleFlag = document.title;
-            if(titleFlag == "Чат"){
-                titleFlag = "!НОВОЕ СООБЩЕНИЕ!"
-            }else{
-                titleFlag = "Чат"
-            }
-            document.title = titleFlag;
-
-        },2000);
+    timerIdAlert = setInterval(()=>{
+         titleFlag = document.title;
+         if(titleFlag == "Чат"){
+             titleFlag = "!НОВОЕ СООБЩЕНИЕ!"
+         }else{
+             titleFlag = "Чат"
+         }
+         document.title = titleFlag;
+     },2000);
 }
 
 //Получение всех чатов
 function getChats(){
     $.ajax({
         'type': 'GET',
-        'url': '/chat/getchats',
-        'data':{'chat_id': ActivChatId},
+        'url': '/chatsget',
         'dataType': 'html',
         'success': function( data ){
             $('.listChats').html(data);
+            let id;
+            let url = window.location.pathname.split('/');
+            if(url[2] && url[1]=='chats'){
+                id=url[2];
+                $('.get_message_chat[chat-id='+id+']').addClass('active');
+            }
         }
     });
 }
 
-
-function getMessage(thisEl=null,chat_id_f){
-
-    $('.chat-list .get_message_chat').removeClass('active');
-
-    if(thisEl!=null){
-        thisEl.addClass('active');
-        if(thisEl.attr('chat-id')){
-            var chat_id = $(thisEl).attr('chat-id')
-        }
-    }else{
-        if(chat_id_f!=null){
-            chat_id=chat_id_f;
-        }
-    }
-   $('.chat-list .get_message_chat[chat-id='+ActivChatId+']').addClass('active');
-
-    $('.chat_id').val(chat_id);
-
+function checkchats(){
     $.ajax({
         'type': 'GET',
-        'url': '/message/getMessage',
-        'data': "chat_id="+chat_id,
+        'url': '/chatscheck',
+        'dataType': 'json',
+        'success': function( data ){
+            if(data){
+                data.forEach((el) => {
+                    if(!$('[chat-id='+el+'] .new_message' ).hasClass("newmessage")){
+                        $('[chat-id='+el+'] .new_message').addClass("newmessage");
+                    }
+                    console.log(el);
+                });
+            }
+        }
+    });
+}
+
+function getmsg(chat){
+    $.ajax({
+        'type': 'get',
+        'url': '/chat/'+chat,
         'dataType': 'html',
         'success': function( data )
         {
+           // getChats();
             $('.chat-history ul').html(data);
-            lastMessageScroll();
         }
     });
 
 }
-
 
 function deleteMessage(form){
     var message_id = form.find('input[name=message_id]').val();
@@ -293,7 +253,7 @@ function deleteMessage(form){
         'dataType': 'html',
         'success': function( data )
         {
-            getMessage(null , ActivChatId);
+            getMessage(null );
         }
     });
 }
@@ -303,6 +263,7 @@ $('#end_div_scroll .strelka-bottom-1').on("click", function (){
     scroll=false;
     lastMessageScroll();
 });
+
 //Скролл к последнему сообщению
 function lastMessageScroll() {
     if(scroll==false){
@@ -312,44 +273,29 @@ function lastMessageScroll() {
     }
 }
 
-function updateMessage(thisEl=null, chat_id_f, lastMessage= 0){
-
-    if(thisEl!=null){
-        thisEl.addClass('active');
-        if(thisEl.attr('chat-id')){
-            var chat_id = $(thisEl).attr('chat-id')
-        }
-    }else{
-        if(chat_id_f!=null){
-            chat_id=chat_id_f;
-        }
-    }
+function updatemsg(lastMessage= 0){
     $.ajax({
         'type': 'GET',
-        'url': '/message/updateMessage',
+        'url': '/chat/getnewmsg/'+chat_id+'/'+lastMessage,
         'data': {
-            "chat_id": chat_id,
-            "last_message_id": lastMessage,
         },
         'dataType': 'html',
-        'success': function( data )
-        {
+        'success': function( data ){
             $('.chat-history ul').append(data);
             lastMessageScroll();
         }
     });
-
 }
-
 function getPrevMessage(){
-    first_message_id=$('.chat-history li').first().attr('id');
+    first_message_id=$('.chat-history .msg-item').first().attr('id');
     if(first_message_id>0){
         $.ajax({
             'type': 'GET',
-            'url': '/message/getPrevMessage',
+            //'url': '/message/getPrevMessage',
+            'url': '/chat/'+chat_id+'/'+first_message_id,
             'data': {
-                "chat_id": ActivChatId,
-                "first_message_id": $('.chat-history li').first().attr('id'),
+               // "chat_id": chat_id,
+                "first_message_id": first_message_id,
             },
             'dataType': 'html',
             'success': function( data )
@@ -366,8 +312,11 @@ function reloadChat(){
     update = false;
     const intervalId = setInterval(function() {
         lastMessage = $('.chat-history ul li:last').attr('id');
-        updateMessage(null, ActivChatId, lastMessage);
-        //console.log('Я выполняюсь каждую секунду')
+        updatemsg( lastMessage );
     }, 2000);
     return intervalId;
 }
+
+    let intervalId2 = setInterval(function() {
+        checkchats();
+    }, 5000);

@@ -1,10 +1,5 @@
 <?
 use Illuminate\Support\Facades\Auth;
-if(isset($_GET['chat_id'])){
-    $active_chat_id = $_GET['chat_id'];
-}else{
-    $active_chat_id = 1;
-}
 
 //$CurrentUser->id == $chat->user_id &&
 
@@ -17,12 +12,11 @@ if(isset($_GET['chat_id'])){
     if(in_array($chat->id, $hiddenChats)){
         $display = " d-none";
     }
-
    ?>
-    <li class="clearfix get_message_chat  @if($active_chat_id == $chat->id) active @endif {{$display}}" chat-id="{{ $chat->id }}" @if($active_chat_id == $chat->id) id="main_chat" @endif >
+    <li class="clearfix get_message_chat {{$display}}" chat-id="{{ $chat->id }}" >
         <img src="/public/images/all.png" alt="avatar">
         <div class="about">
-            <div class="name"><a class='chat_link' href="/?chat_id={{ $chat->id }}"></a>{{ $chat->title }}</div>
+            <div class="name"><a class='chat_link' href="{{route('chat.show',$chat->id)}}">{{ $chat->title }}</a></div>
             @if($chat->id != 1)
                 <form action="{{route('chat.close',$chat->id)}}" method="post">
                     @csrf

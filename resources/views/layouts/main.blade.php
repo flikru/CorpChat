@@ -25,6 +25,7 @@ $users = User::all();
     <link rel="stylesheet" href="{{asset('public/css/svg.css')}}">
     <link type="image/x-icon" href="/favicon.png" rel="shortcut icon">
     <link type="Image/x-icon" href="/favicon.png" rel="icon">
+    <script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
     <title>Чат</title>
 
 </head>
@@ -46,12 +47,12 @@ $users = User::all();
                     <div class="input-group w-100">
                         @if($CurrentUser->group == "admin")
                             <div class="name w-100 mb-2">
-                                <a href="{{route('chat.create')}}" class="btn btn-info w-100" type="button" >
+                                <a href="{{route('editor.create')}}" class="btn btn-info w-100" type="button" >
                                     Создать чат
                                 </a>
                             </div>
                             <div class="name w-100 mb-2">
-                                <a href="{{route('chats.show')}}" class="btn btn-info w-100" type="button" >
+                                <a href="{{route('editor.index')}}" class="btn btn-info w-100" type="button" >
                                     Редактор чатов
                                 </a>
                             </div>
@@ -122,7 +123,6 @@ $users = User::all();
 @include('include.AddChatPopup')
 <input type="text" class="d-none currentuser_id" id="#" value="{{ $CurrentUser->id }}">
 {{--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>--}}
-<script src="{{asset('public/js/jquery-3.7.0.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 {{--<script src="{{asset('public/js/bootstrap.bundle.min.js')}}">--}}
 <script src="{{asset('public/js/popper.min.js')}}"></script>
