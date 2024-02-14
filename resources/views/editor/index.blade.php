@@ -54,9 +54,9 @@
                          @endforeach
                         </div>
                     </div>
-                    <div class="col-1">
+                    <div class="col-1 m">
                         <button class="btn btn-info w-100">SAVE</button>
-                        <a href="{{route('chat.clear', $chat->id)}}">Очистить сообщения</a>
+                        <a confirm="Удалить все сообщения из чата?" class="confirm-action clear-chat" href="{{route('chat.clear', $chat->id)}}">Очистить чат</a>
                     </div>
                 </div>
             </form>

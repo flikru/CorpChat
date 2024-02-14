@@ -11,7 +11,7 @@ use App\Http\Controllers\MessageController;
 class ChatController extends Controller
 {
 
-    //Загрузка главной
+    //Загрузка главной не используется
     public function index(){
         $СurrentUser = Auth::user();
         $users = User::all();
@@ -34,8 +34,6 @@ class ChatController extends Controller
             return view('chat.listchats',compact('listChats','CurrentUser'));
         }
     }
-
-    //Доблавние сообщения в чат
 
     //Создание чата
     public function chatcreate(){
@@ -141,11 +139,20 @@ class ChatController extends Controller
         $currentuser = Auth::user();
         return view('editor.index', compact('chats','users', 'currentuser'));
     }
+    //открыть чат загрузка сообщений
     public function show(Chat $chat, Request $request){
-        $messages = $chat->messages;
-        $members = $chat->users;
         $CurrentUser = Auth::user();
-        return view('chat.index', compact('chat','messages','members','CurrentUser'));
+        $msgfiles=[];
+        $messages = $chat->messages->take(40)->reverse();
+        $msgfiles = $chat->messages->where('file_path','!=',null);
+        //dd($msgfiles);
+        $members = $chat->users;
+        if($members->where('id',$CurrentUser->id)->count()==0){
+            return redirect()->route('chat.show',["chat"=>1]);
+        }
+        $msgview = view('chat.message', compact('messages'));
+        //dd($messages);
+        return view('chat.index', compact('chat','messages','members','CurrentUser','msgview','msgfiles'));
     }
     public function getmsg(Chat $chat){
         $messages = $chat->messages->take(10)->reverse();
@@ -156,33 +163,37 @@ class ChatController extends Controller
         $lastmsg = $msg->id;
         $messages = $chat->messages->where('id','<',$lastmsg)->take(10)->reverse();
         $members = $chat->users;
-        return view('chat.message', compact('messages','chat','members'));
+        if($messages->count()>0)
+            return view('chat.message', compact('messages','chat','members'));
     }
     public function getnewmsg(Chat $chat, Message $msg){
         //Проверка по всем чатам новых сообщений
         $new_in_chats=[];
         $cuser = Auth::user();
-        $checkchats = $cuser->chats;
-        $hesaw = $cuser->status;
-        foreach ($checkchats as $checkchat){
-            $lastMsgChat = $checkchat->messages->where('user_id','!=',$cuser->id)->first();
-            if($lastMsgChat && $lastMsgChat->id > $cuser->status){
-                $notificate[]=$checkchat->id;
-                $hesaw=$hesaw > $lastMsgChat->id ? $hesaw : $lastMsgChat->id;
-            }
+        $hesaw = $cuser->newmessages;
+        $arHS = json_decode($hesaw,true);
+        if(!is_array($arHS) && !empty($arHS)){
+            $cuser->newmessages=json_encode([]);
+            $cuser->save();
         }
-        if($hesaw != $cuser->status){
-            $cuser->status=$hesaw;
-            //$cuser->save();
-        }
-
         //Получение сообщений
         $lastmsg = $msg->id;
         $messages = $chat->messages->where('id','>',$lastmsg)->reverse();
         $members = $chat->users;
         $update=true;
         if($messages->count()>0){
+            if( !isset($arHS[$chat->id]) || $arHS[$chat->id]<$messages->last()->id){
+                $arHS[$chat->id]=$messages->last()->id;
+                $cuser->newmessages=json_encode($arHS);
+                $cuser->save();
+            }
             return view('chat.message', compact('messages','chat','members','update'));
+        }else{
+            if( !isset($arHS[$chat->id]) || $arHS[$chat->id]<$lastmsg){
+                $arHS[$chat->id]=$lastmsg;
+                $cuser->newmessages=json_encode($arHS);
+                $cuser->save();
+            }
         }
     }
 
@@ -190,24 +201,20 @@ class ChatController extends Controller
         $notificate=[];
         $cuser = Auth::user();
         $checkchats = $cuser->chats;
-        $hesaw = $cuser->status;
-        $hesaw = '{"1":"162","8":"55","10":"66","11":"25"}';
+        $hesaw = $cuser->newmessages;
+        //$hesaw = '{"1":"15","8":"55","10":"66","11":"25"}';
         $arHS = json_decode($hesaw,true);
-       // echo json_encode($arHS);
+        $new=[];
+        // echo json_encode($arHS);
         foreach ($checkchats as $checkchat){
             $lastMsgChat = $checkchat->messages->where('user_id','!=',$cuser->id)->first();
-            if($lastMsgChat && $lastMsgChat->id > $cuser->status){
-                $arHS[$checkchat->id] = $lastMsgChat->id;
-                $notificate[]=$checkchat->id;
-                $hesaw=$hesaw > $lastMsgChat->id ? $hesaw : $lastMsgChat->id;
+            if($lastMsgChat!==null){
+                if(!isset($arHS[$checkchat->id]) || isset($arHS[$checkchat->id]) && $arHS[$checkchat->id]<$lastMsgChat->id){
+                    $new[$checkchat->id] = $lastMsgChat->id;
+                }
             }
         }
-        dd($arHS);
-        if($hesaw != $cuser->status){
-            $cuser->status=$hesaw;
-            //$cuser->save();
-        }
-        echo json_encode($notificate);
+        echo json_encode($new);
         return;
     }
     public function update(Chat $chat, Request $request){
