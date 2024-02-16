@@ -56,6 +56,7 @@ Route::delete('/message/delete/{message}', [MessageController::class, 'destroy']
 Route::post('/user/{user}', [UserController::class, 'update'])->name('user.update')->middleware('auth');
 Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show')->middleware('auth');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy')->middleware('admin');
+Route::patch('/user/{user}', [UserController::class, 'setStatus'])->name('user.setStatus');
 
 
 Auth::routes();

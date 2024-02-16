@@ -37,7 +37,7 @@ class ChatController extends Controller
 
     //Создание чата
     public function chatcreate(){
-        $users = User::all();
+        $users = User::orderBy("name",'asc')->get();
         $СurrentUser = Auth::user();
         return view('editor.create', compact('users','СurrentUser'));
     }
@@ -135,7 +135,7 @@ class ChatController extends Controller
     }
     public function editor(Request $request){
         $chats = Chat::where('type', 'like', 'chats')->get();
-        $users = User::all();
+        $users = User::orderBy('name','asc')->get();
         $currentuser = Auth::user();
         return view('editor.index', compact('chats','users', 'currentuser'));
     }

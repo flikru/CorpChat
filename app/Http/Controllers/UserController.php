@@ -35,7 +35,18 @@ class UserController extends Controller
     function show(User $user, Request $request){
         return view('user.show', compact('user'));
     }
-
+    function setStatus(User $user, Request $request){
+        echo "START";
+        $CUser = Auth::user();
+        if($CUser && $CUser->id == $user->id){
+            $user->userstatus = $request->userstatus;
+            echo "OK";
+            return $user->save();
+        }else{
+            echo "NO OK";
+            return false;
+        }
+    }
     function destroy(User $user){
         if(Auth::user()->group == "admin" && $user->id!=1 ){
             $user->delete();

@@ -8,9 +8,10 @@ if(isset($_GET['chat_id'])){
 }else{
     $active_chat_id = 1;
 }
-
+$statuses=["На месте","Отошел","Совещание","Отпуск"];
 $CurrentUser = Auth::user();
-
+$cid = $CurrentUser->id;
+$status = $CurrentUser->userstatus;
 $users = User::all();
 ?>
     <!doctype html>
@@ -39,11 +40,18 @@ $users = User::all();
                 <button class="btn btn-info w-100 select_chat">Меню</button>
                 <div id="plist" class="people-list">
                     <div class="control-part">
-                        <div class="input-group">
+                        <div class="input-group name-status-part">
                             <a href="{{route('home')}}">
                                 <h3>{{ $CurrentUser->name }}
                                 <i class="fa fa-cogs"></i></h3>
                             </a>
+                            <span class="userstatus">
+                                <select name="userstatus" id="userstatus" onchange="setstatus('/user/{{ $cid }}',this,'status-{{$status}}')" class="status-{{$status}}">
+                                    @foreach($statuses as $k=>$s)
+                                        <option value="{{$k}}" @if($status==$k) selected @endif>{{$s}}</option>
+                                    @endforeach
+                                </select>
+                            </span>
                         </div>
                         @if($CurrentUser->group == "admin")
                         <div class="input-group w-100 admin-group">
@@ -91,6 +99,7 @@ $users = User::all();
                             if($user->id == $CurrentUser->id){
                                 continue;
                             };
+                            $st = $user->userstatus;
                             ?>
                             <li class="clearfix user_chat_create" user-id="{{ $user->id }}">
                                 <div class="position-relative img-users">
@@ -103,9 +112,10 @@ $users = User::all();
                                 </div>
                                <div class="about">
                                     <div class="name">{{ $user->name }}</div>
-                                    @if(isset($user->position))
-                                        <div class="position">{{ $user->position }}</div>
-                                    @endif
+                                   @if(isset($user->position))
+                                       <div class="position">{{ $user->position }}</div>
+                                   @endif
+                                   <span class="userstatus-list status-{{$st}}">{{ $statuses[$st] }}</span>
                                 </div>
                             </li>
                         @endforeach
@@ -130,5 +140,6 @@ $users = User::all();
 <script src="{{asset('public/js/popper.min.js')}}"></script>
 <script src="{{asset('public/js/script.js')}}"></script>
 <script src="{{asset('public/js/sitefunctions.js')}}"></script>
+<script src="{{asset('public/js/smallscripts.js')}}"></script>
 </body>
 </html>

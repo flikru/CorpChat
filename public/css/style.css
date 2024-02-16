@@ -106,6 +106,44 @@ body{
     max-width: 100%;
     width: 100%;
 }
+.userstatus-list{
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: #fff;
+    border-radius: 10px;
+    padding: 3px 8px;
+}
+.status-0{
+    background-color: #9bffb1;
+}
+.status-1{
+    background-color: #ffed9b;
+}
+.status-2{
+    background-color: #9aa3ff;
+}
+.status-3{
+    background-color: #ffacac;
+}
+select{
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 2px solid #007bff;
+    font-family: "Lucida Console", monospace, sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    cursor: pointer;
+}
+select option{
+    padding: 5px 15px;
+}
+.name-status-part{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 .fa{
     vertical-align: top !important;
 }
